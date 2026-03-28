@@ -1,0 +1,190 @@
+{
+  "entities": {
+    "users": {
+      "title": "User Profile",
+      "description": "Stores user profile and membership information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier for the user." },
+        "email": { "type": "string", "format": "email", "description": "The user's email address." },
+        "displayName": { "type": "string", "description": "The user's full name." },
+        "role": { "type": "string", "enum": ["user", "admin"], "description": "The user's role." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user account was created." }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "orders": {
+      "title": "Order",
+      "description": "Stores chemical product orders.",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "uid": { "type": "string", "description": "The user ID who placed the order." },
+        "chemicalName": { "type": "string" },
+        "quantity": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "processing", "shipped", "delivered"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "uid", "chemicalName", "quantity", "status"]
+    },
+    "contact_messages": {
+      "title": "Contact Message",
+      "description": "Stores messages from the contact form.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "message"]
+    },
+    "products": {
+      "title": "Product",
+      "description": "Stores chemical products information.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "price": { "type": "string" },
+        "rating": { "type": "number" },
+        "img": { "type": "string", "format": "uri" },
+        "stock": { "type": "number", "description": "Current inventory level." },
+        "desc": { "type": "string" },
+        "details": { "type": "string" },
+        "specs": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["name", "category", "price", "img", "desc"]
+    },
+    "gallery": {
+      "title": "Gallery Image",
+      "description": "Stores images for the gallery.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["url", "title"]
+    },
+    "settings": {
+      "title": "Site Settings",
+      "description": "Stores site-wide configuration settings.",
+      "type": "object",
+      "properties": {
+        "facilityVideoUrl": { "type": "string", "format": "uri", "description": "URL for the facility tour video." }
+      }
+    },
+    "page_content": {
+      "title": "Page Content",
+      "description": "Stores dynamic content for various page sections.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID for the section (e.g., 'barite_hero')." },
+        "imageUrl": { "type": "string", "format": "uri", "description": "The URL of the image for this section." },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "imageUrl"]
+    },
+    "services": {
+      "title": "Service",
+      "description": "Stores industrial services information.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "desc": { "type": "string" },
+        "details": { "type": "string" },
+        "icon": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "desc", "details"]
+    },
+    "testimonials": {
+      "title": "Testimonial",
+      "description": "Stores customer testimonials.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "company": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "text"]
+    },
+    "barite_properties": {
+      "title": "Barite Property",
+      "description": "Stores technical properties of Barite.",
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "value": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["label", "value"]
+    },
+    "barite_applications": {
+      "title": "Barite Application",
+      "description": "Stores industrial applications of Barite.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "desc": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "desc"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "users",
+      "description": "User profile documents."
+    },
+    "/orders/{orderId}": {
+      "schema": "orders",
+      "description": "Order documents."
+    },
+    "/contact_messages/{messageId}": {
+      "schema": "contact_messages",
+      "description": "Contact form submissions."
+    },
+    "/products/{productId}": {
+      "schema": "products",
+      "description": "Product catalog documents."
+    },
+    "/gallery/{imageId}": {
+      "schema": "gallery",
+      "description": "Gallery image documents."
+    },
+    "/settings/{settingId}": {
+      "schema": "settings",
+      "description": "Site configuration documents."
+    },
+    "/page_content/{sectionId}": {
+      "schema": "page_content",
+      "description": "Dynamic page section content."
+    },
+    "/services/{serviceId}": {
+      "schema": "services",
+      "description": "Industrial services catalog."
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "testimonials",
+      "description": "Customer testimonials."
+    },
+    "/barite_properties/{propertyId}": {
+      "schema": "barite_properties",
+      "description": "Technical properties of Barite."
+    },
+    "/barite_applications/{applicationId}": {
+      "schema": "barite_applications",
+      "description": "Industrial applications of Barite."
+    }
+  }
+}
