@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import admin from "firebase-admin";
 
-// ✅ 🔥 PASTE IT RIGHT HERE (UNDER IMPORTS)
+// 🔥 Initialize Firebase Admin
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
@@ -12,18 +12,23 @@ if (!admin.apps.length) {
   });
 }
 
-// ✅ AFTER THAT
 const db = admin.firestore();
 
 export default async function handler(req, res) {
   try {
+    // Only allow POST
     if (req.method !== "POST") {
       return res.status(405).json({ message: "Method not allowed" });
     }
 
     const { name, email, message } = req.body;
 
-    // ✅ SAVE TO FIREBASE
+    // Validate input
+    if (!name || !email || !message) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // ✅ 1. Save to Firebase
     await db.collection("contact_messages").add({
       name,
       email,
@@ -31,10 +36,10 @@ export default async function handler(req, res) {
       createdAt: new Date(),
     });
 
-    // ✅ EMAIL SETUP
+    // ✅ 2. Setup email transporter
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: 465,
+      port: Number(process.env.SMTP_PORT) || 465,
       secure: true,
       auth: {
         user: process.env.SMTP_USER,
@@ -42,26 +47,40 @@ export default async function handler(req, res) {
       },
     });
 
-    // ✅ SEND TO YOU
+    // ✅ 3. Send email to you (admin)
     await transporter.sendMail({
-      from: process.env.SMTP_USER,
+      from: `"WAHAT MTQ Website" <${process.env.SMTP_USER}>`,
       to: process.env.OWNER_EMAIL,
-      subject: "New Message",
-      text: message,
+      subject: `New Contact Message from ${name}`,
+      html: `
+        <h2>New Message</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
     });
 
-    // ✅ AUTO REPLY
+    // ✅ 4. Auto reply to user
     await transporter.sendMail({
-      from: process.env.SMTP_USER,
+      from: `"WAHAT MTQ CHEMICALS" <${process.env.SMTP_USER}>`,
       to: email,
       subject: "We received your message",
-      text: "Thank you for contacting us. We will reply soon.",
+      html: `
+        <h3>Hello ${name},</h3>
+        <p>Thank you for contacting WAHAT MTQ CHEMICALS.</p>
+        <p>We have received your message and will reply shortly.</p>
+        <br/>
+        <p><b>Your Message:</b></p>
+        <p>${message}</p>
+        <br/>
+        <p>Best regards,<br/>WAHAT MTQ Team</p>
+      `,
     });
 
     return res.status(200).json({ success: true });
 
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Error sending message" });
+    console.error("ERROR:", error);
+    return res.status(500).json({ message: "Something went wrong" });
   }
 }
