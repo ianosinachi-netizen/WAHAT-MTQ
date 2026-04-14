@@ -1,10 +1,23 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useState, useEffect } from 'react';
+import { db } from '../firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 export default function Footer() {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
+  const [logoUrl, setLogoUrl] = useState<string>("https://cdn-icons-png.flaticon.com/512/4341/4341139.png");
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, 'settings', 'site'), (doc) => {
+      if (doc.exists()) {
+        setLogoUrl(doc.data().logoUrl || "https://cdn-icons-png.flaticon.com/512/4341/4341139.png");
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <footer className="bg-gray-900 text-gray-300 pt-16 pb-8">
@@ -12,9 +25,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-teal-600 rounded flex items-center justify-center">
-                <span className="text-white font-bold text-lg">W</span>
+            <Link to="/" className="flex items-center space-x-3">
+              <div className="w-10 h-10 flex items-center justify-center">
+                <img 
+                  src={logoUrl} 
+                  alt="Wahat Mtq Logo" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <span className="text-xl font-bold text-white tracking-tight">
                 {t('WAHAT MTQ')} <span className="text-teal-500">{t('Chemicals')}</span>

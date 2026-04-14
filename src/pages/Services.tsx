@@ -88,7 +88,7 @@ export default function Services() {
           >
             {t('Expert Technical Services')}
           </motion.div>
-          <h1 className="text-4xl lg:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 tracking-tight leading-[1.1] sm:leading-tight">
             {t('Industrial')} <span className="text-teal-600">{t('Services')}</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">

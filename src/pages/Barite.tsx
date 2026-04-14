@@ -159,7 +159,7 @@ export default function Barite() {
               animate={{ opacity: 1, x: 0 }}
               className="max-w-3xl"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-[1.1] sm:leading-tight">
                 {heroContent?.title ? t(heroContent.title) : (
                   <>
                     {t('Premium')} <span className="text-teal-400">{t('Barite')}</span> {t('Solutions')}

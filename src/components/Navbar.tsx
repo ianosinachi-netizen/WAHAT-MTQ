@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { db } from '../firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -28,6 +30,23 @@ export default function Navbar() {
   const location = useLocation();
   const { profile, user } = useAuth();
   const { t, isRTL } = useLanguage();
+  const [logoUrl, setLogoUrl] = useState<string>("https://cdn-icons-png.flaticon.com/512/4341/4341139.png");
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, 'settings', 'site'), (doc) => {
+      if (doc.exists()) {
+        const url = doc.data().logoUrl || "https://cdn-icons-png.flaticon.com/512/4341/4341139.png";
+        setLogoUrl(url);
+        
+        // Update Favicon
+        const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+        if (favicon) {
+          favicon.href = url;
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,9 +71,14 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-teal-700 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">W</span>
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-12 h-12 flex items-center justify-center">
+              <img 
+                src={logoUrl} 
+                alt="Wahat Mtq Logo" 
+                className="w-full h-full object-contain"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <span className={`text-xl font-bold tracking-tight text-teal-900`}>
               {t('WAHAT MTQ')} <span className="text-teal-600">{t('Chemicals')}</span>
@@ -175,9 +199,14 @@ export default function Navbar() {
               className={`fixed top-0 ${isRTL ? 'left-0' : 'right-0'} bottom-0 w-[85%] max-w-sm bg-white z-50 lg:hidden shadow-2xl flex flex-col`}
             >
               <div className="p-6 flex justify-between items-center border-b border-gray-100">
-                <Link to="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
-                  <div className="w-8 h-8 bg-teal-700 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">W</span>
+                <Link to="/" className="flex items-center space-x-3" onClick={() => setIsOpen(false)}>
+                  <div className="w-10 h-10 flex items-center justify-center">
+                    <img 
+                      src={logoUrl} 
+                      alt="Wahat Mtq Logo" 
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
                   <span className="text-lg font-bold text-teal-900">WAHAT MTQ</span>
                 </Link>

@@ -11,7 +11,7 @@ const AdminPanel = () => {
   const { t } = useLanguage();
   const { profile, loading: authLoading } = useAuth();
   const [mode, setMode] = useState<'upload' | 'manage'>('upload');
-  const [uploadType, setUploadType] = useState<'products' | 'page_content' | 'gallery' | 'services' | 'testimonials' | 'barite_properties' | 'barite_applications'>('products');
+  const [uploadType, setUploadType] = useState<'products' | 'page_content' | 'gallery' | 'services' | 'testimonials' | 'barite_properties' | 'barite_applications' | 'settings'>('products');
   const [items, setItems] = useState<any[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -176,6 +176,9 @@ const AdminPanel = () => {
     } else if (uploadType === 'barite_applications') {
       setTitle(item.title || "");
       setDescription(item.desc || "");
+    } else if (uploadType === 'settings') {
+      setSectionId(item.id);
+      setPreview(item.logoUrl || "");
     }
     
     if (item.imageUrls) {
@@ -293,6 +296,7 @@ const AdminPanel = () => {
         if (uploadType === 'page_content') folder = 'page_content';
         if (uploadType === 'gallery') folder = 'gallery';
         if (uploadType === 'services') folder = 'services';
+        if (uploadType === 'settings') folder = 'settings';
 
         const storageRef = ref(
           storage,
@@ -362,6 +366,11 @@ const AdminPanel = () => {
             desc: description,
             updatedAt: serverTimestamp(),
           });
+        } else if (uploadType === 'settings') {
+          await updateDoc(docRef, {
+            logoUrl: downloadURL,
+            updatedAt: serverTimestamp(),
+          });
         } else {
           const { arrayUnion } = await import('firebase/firestore');
           const updateData: any = {
@@ -423,6 +432,12 @@ const AdminPanel = () => {
             desc: description,
             createdAt: serverTimestamp(),
           });
+        } else if (uploadType === 'settings') {
+          const { setDoc } = await import('firebase/firestore');
+          await setDoc(doc(db, "settings", "site"), {
+            logoUrl: downloadURL,
+            updatedAt: serverTimestamp(),
+          }, { merge: true });
         } else {
           const { setDoc, arrayUnion } = await import('firebase/firestore');
           await setDoc(doc(db, "page_content", sectionId), {
@@ -579,6 +594,14 @@ const AdminPanel = () => {
               }`}
             >
               {t('Barite Apps')}
+            </button>
+            <button
+              onClick={() => setUploadType('settings')}
+              className={`flex-none px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                uploadType === 'settings' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              {t('Settings')}
             </button>
           </div>
 
@@ -761,6 +784,16 @@ const AdminPanel = () => {
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all min-h-[100px]"
                     />
+                  </div>
+                </div>
+              )}
+
+              {uploadType === 'settings' && (
+                <div className="space-y-4">
+                  <div className="p-4 bg-teal-50 rounded-2xl border border-teal-100">
+                    <p className="text-sm text-teal-800 font-medium">
+                      {t('Update your company logo here. This will update the logo in the Navbar, Footer, and Favicon.')}
+                    </p>
                   </div>
                 </div>
               )}

@@ -3,6 +3,7 @@ import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
 import Groq from "groq-sdk";
+import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 
@@ -10,6 +11,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
 async function startServer() {
   const app = express();
@@ -20,6 +23,43 @@ async function startServer() {
   // Health check
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
+  // Gemini Translation API
+  app.post("/api/ai/translate", async (req, res) => {
+    const { texts, targetLanguage } = req.body;
+
+    if (!texts || !targetLanguage) {
+      return res.status(400).json({ error: "Texts and targetLanguage are required." });
+    }
+
+    try {
+      const prompt = `Translate the following list of strings to ${targetLanguage}. 
+      Context: These are UI labels, buttons, and content for a professional chemical company website (Wahat MTQ Chemicals).
+      Return the translations as a JSON object where keys are the original strings and values are the translations. 
+      Return ONLY the JSON object: ${JSON.stringify(texts)}`;
+
+      const response = await genAI.models.generateContent({
+        model: "gemini-1.5-flash",
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json",
+        }
+      });
+
+      const text = response.text || "{}";
+      
+      try {
+        const json = JSON.parse(text);
+        res.json(json);
+      } catch (parseError) {
+        console.error("Failed to parse Gemini response:", text);
+        res.status(500).json({ error: "Invalid response format from AI." });
+      }
+    } catch (error: any) {
+      console.error("Gemini Translation Error:", error);
+      res.status(500).json({ error: error.message || "Failed to translate." });
+    }
   });
 
   // Groq API Proxy

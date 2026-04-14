@@ -269,7 +269,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const pendingRequests = React.useRef<Set<string>>(new Set());
   const batchTimeout = React.useRef<NodeJS.Timeout | null>(null);
   const lastRequestTime = React.useRef<number>(0);
-  const MIN_REQUEST_INTERVAL = 5000; // 5 seconds between batches (increased)
+  const MIN_REQUEST_INTERVAL = 1000; // 1 second between batches
 
   useEffect(() => {
     localStorage.setItem('app_translation_mode', translationMode);
@@ -367,7 +367,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     
     // Debounce processing
     if (batchTimeout.current) clearTimeout(batchTimeout.current);
-    batchTimeout.current = setTimeout(processQueue, 2000); // 2 second debounce (increased)
+    batchTimeout.current = setTimeout(processQueue, 500); // 0.5 second debounce
 
     return text;
   }, [currentLanguage, translations, processQueue, translationMode]);

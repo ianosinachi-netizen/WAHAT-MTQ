@@ -1,7 +1,3 @@
-import { GoogleGenAI } from "@google/genai";
-
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
-
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 2000; // 2 seconds
 
@@ -17,11 +13,6 @@ async function withRetry<T>(fn: () => Promise<T>, retries = MAX_RETRIES): Promis
       await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
       return withRetry(fn, retries - 1);
     }
-    
-    // If it's a quota error, throw a cleaner one
-    if (error.message?.includes('quota') || error.status === 429) {
-      throw new Error("Translation error: Quota exceeded");
-    }
     throw error;
   }
 }
@@ -35,22 +26,8 @@ export async function translateText(text: string, targetLanguage: string): Promi
   }
 
   try {
-    const translated = await withRetry(async () => {
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: `Translate the following text to ${targetLanguage}. 
-        Context: This is for a professional website for a chemical company (Wahat MTQ Chemicals).
-        Return ONLY the translated text, no explanations, no quotes, no extra characters: "${text}"`,
-      });
-
-      return response.text?.trim() || text;
-    });
-
-    // Save to cache
-    if (!translationCache[targetLanguage]) translationCache[targetLanguage] = {};
-    translationCache[targetLanguage][text] = translated;
-
-    return translated;
+    const batchResult = await translateBatch([text], targetLanguage);
+    return batchResult[0] || text;
   } catch (error) {
     console.error("Translation error:", error);
     return text;
@@ -87,18 +64,23 @@ export async function translateBatch(texts: string[], targetLanguage: string): P
     
     try {
       await withRetry(async () => {
-        const response = await ai.models.generateContent({
-          model: "gemini-3-flash-preview",
-          contents: `Translate the following list of strings to ${targetLanguage}. 
-          Context: These are UI labels, buttons, and content for a professional chemical company website.
-          Return the translations as a JSON object where keys are the original strings and values are the translations. 
-          Return ONLY the JSON object: ${JSON.stringify(batch)}`,
-          config: {
-            responseMimeType: "application/json"
-          }
+        const response = await fetch('/api/ai/translate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            texts: batch,
+            targetLanguage
+          })
         });
 
-        const batchResult = JSON.parse(response.text || "{}");
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Translation failed');
+        }
+
+        const batchResult = await response.json();
         Object.assign(results, batchResult);
 
         // Update cache
