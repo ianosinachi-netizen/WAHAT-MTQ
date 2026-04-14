@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronRight, Shield, ChevronDown, User } from 'lucide-react';
+import { Menu, X, ChevronRight, Shield, ChevronDown, User, Home, Box, Droplets, Image as ImageIcon, Phone, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -9,18 +9,19 @@ import { db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 const navLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'Barite', path: '/barite' },
-  { name: 'Chemicals', path: '/products' },
+  { name: 'Home', path: '/', icon: Home },
+  { name: 'Barite', path: '/barite', icon: Box },
+  { name: 'Chemicals', path: '/products', icon: Droplets },
   { 
     name: 'Capabilities', 
     path: '/capabilities',
+    icon: Layers,
     dropdown: [
       { name: 'Services', path: '/services' },
     ]
   },
-  { name: 'Gallery', path: '/gallery' },
-  { name: 'Contact', path: '/contact' },
+  { name: 'Gallery', path: '/gallery', icon: ImageIcon },
+  { name: 'Contact', path: '/contact', icon: Phone },
 ];
 
 export default function Navbar() {
@@ -168,13 +169,12 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center space-x-4">
-            <LanguageSwitcher />
+          <div className="lg:hidden flex items-center space-x-2">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-teal-900 focus:outline-none"
+              className="w-12 h-12 flex items-center justify-center bg-teal-50 text-teal-700 rounded-2xl hover:bg-teal-100 transition-all active:scale-95 shadow-sm border border-teal-100"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
@@ -189,18 +189,19 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
+              className="fixed inset-0 bg-teal-900/20 backdrop-blur-md z-40 lg:hidden"
             />
             <motion.div
               initial={{ x: isRTL ? '-100%' : '100%' }}
               animate={{ x: 0 }}
               exit={{ x: isRTL ? '-100%' : '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className={`fixed top-0 ${isRTL ? 'left-0' : 'right-0'} bottom-0 w-[85%] max-w-sm bg-white z-50 lg:hidden shadow-2xl flex flex-col`}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className={`fixed top-0 ${isRTL ? 'left-0' : 'right-0'} bottom-0 w-[90%] max-w-sm bg-white z-50 lg:hidden shadow-2xl flex flex-col rounded-l-[2.5rem] overflow-hidden`}
             >
-              <div className="p-6 flex justify-between items-center border-b border-gray-100">
+              {/* Mobile Drawer Header */}
+              <div className="p-8 flex justify-between items-center bg-gradient-to-br from-teal-50 to-white border-b border-teal-100">
                 <Link to="/" className="flex items-center space-x-3" onClick={() => setIsOpen(false)}>
-                  <div className="w-10 h-10 flex items-center justify-center">
+                  <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center p-2 border border-teal-50">
                     <img 
                       src={logoUrl} 
                       alt="Wahat Mtq Logo" 
@@ -208,93 +209,110 @@ export default function Navbar() {
                       referrerPolicy="no-referrer"
                     />
                   </div>
-                  <span className="text-lg font-bold text-teal-900">WAHAT MTQ</span>
+                  <div className="flex flex-col">
+                    <span className="text-xl font-black text-teal-900 leading-none">WAHAT MTQ</span>
+                    <span className="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em] mt-1">Chemicals LLC</span>
+                  </div>
                 </Link>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm border border-teal-50 text-teal-900 hover:bg-teal-50 transition-colors"
                 >
-                  <X size={24} />
+                  <X size={20} />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto py-6 px-4 space-y-2 custom-scrollbar">
-                {navLinks.map((link) => (
-                  <div key={link.name} className="space-y-1">
-                    {link.dropdown ? (
-                      <div className="space-y-1">
-                        <div className="px-4 py-3 text-xs font-bold text-teal-600 uppercase tracking-wider">
-                          {t(link.name)}
-                        </div>
-                        {link.dropdown.map((sub) => (
-                          <Link
-                            key={sub.name}
-                            to={sub.path}
-                            onClick={() => setIsOpen(false)}
-                            className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium transition-all ${
-                              location.pathname === sub.path ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50'
-                            }`}
-                          >
-                            <span>{t(sub.name)}</span>
-                            <ChevronRight size={16} className={`${isRTL ? 'rotate-180' : ''} opacity-40`} />
-                          </Link>
-                        ))}
-                      </div>
-                    ) : (
+              {/* Mobile Drawer Content */}
+              <div className="flex-1 overflow-y-auto py-8 px-6 space-y-8 custom-scrollbar">
+                {/* Main Navigation Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  {navLinks.map((link) => {
+                    const Icon = link.icon;
+                    const isActive = location.pathname === link.path || (link.dropdown?.some(sub => location.pathname === sub.path));
+                    
+                    return (
                       <Link
+                        key={link.name}
                         to={link.path}
                         onClick={() => setIsOpen(false)}
-                        className={`flex items-center justify-between px-4 py-4 rounded-xl text-lg font-bold transition-all ${
-                          location.pathname === link.path ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50'
+                        className={`flex flex-col items-start p-5 rounded-3xl transition-all duration-300 border ${
+                          isActive 
+                            ? 'bg-teal-600 border-teal-600 text-white shadow-lg shadow-teal-200' 
+                            : 'bg-gray-50 border-gray-100 text-gray-700 hover:bg-teal-50 hover:border-teal-100'
                         }`}
                       >
-                        <span>{t(link.name)}</span>
-                        <ChevronRight size={18} className={`${isRTL ? 'rotate-180' : ''} opacity-40`} />
+                        <div className={`w-10 h-10 rounded-2xl flex items-center justify-center mb-3 ${
+                          isActive ? 'bg-white/20' : 'bg-white shadow-sm'
+                        }`}>
+                          <Icon size={20} className={isActive ? 'text-white' : 'text-teal-600'} />
+                        </div>
+                        <span className="text-sm font-bold tracking-tight">{t(link.name)}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                {/* Account & Admin Section */}
+                <div className="space-y-3">
+                  <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] px-2">{t('Account & Access')}</h3>
+                  <div className="space-y-2">
+                    <Link
+                      to="/membership"
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center justify-between p-4 rounded-2xl transition-all border ${
+                        location.pathname === '/membership' 
+                          ? 'bg-teal-50 border-teal-200 text-teal-700' 
+                          : 'bg-white border-gray-100 text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                          location.pathname === '/membership' ? 'bg-teal-100 text-teal-600' : 'bg-gray-100 text-gray-500'
+                        }`}>
+                          <User size={20} />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold">{user ? t('My Profile') : t('Sign In')}</span>
+                          <span className="text-[10px] text-gray-400">{user ? user.email : t('Access your dashboard')}</span>
+                        </div>
+                      </div>
+                      <ChevronRight size={16} className={isRTL ? 'rotate-180' : ''} />
+                    </Link>
+
+                    {profile?.role === 'admin' && (
+                      <Link
+                        to="/admin"
+                        onClick={() => setIsOpen(false)}
+                        className={`flex items-center justify-between p-4 rounded-2xl transition-all border ${
+                          location.pathname === '/admin' 
+                            ? 'bg-teal-600 border-teal-600 text-white shadow-lg shadow-teal-100' 
+                            : 'bg-teal-50 border-teal-100 text-teal-700 hover:bg-teal-100'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                            location.pathname === '/admin' ? 'bg-white/20 text-white' : 'bg-white text-teal-600 shadow-sm'
+                          }`}>
+                            <Shield size={20} />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-sm font-bold">{t('Admin Panel')}</span>
+                            <span className={`text-[10px] ${location.pathname === '/admin' ? 'text-teal-100' : 'text-teal-600/60'}`}>{t('System Management')}</span>
+                          </div>
+                        </div>
+                        <ChevronRight size={16} className={isRTL ? 'rotate-180' : ''} />
                       </Link>
                     )}
                   </div>
-                ))}
-                
-                <div className="pt-6 mt-6 border-t border-gray-100 space-y-2">
-                  <Link
-                    to="/membership"
-                    onClick={() => setIsOpen(false)}
-                    className={`flex items-center justify-between px-4 py-4 rounded-xl text-lg font-bold transition-all ${
-                      location.pathname === '/membership' ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500">
-                        <User size={20} />
-                      </div>
-                      <span>{user ? t('My Account') : t('Login')}</span>
-                    </div>
-                    <ChevronRight size={18} className={`${isRTL ? 'rotate-180' : ''} opacity-40`} />
-                  </Link>
-
-                  {profile?.role === 'admin' && (
-                    <Link
-                      to="/admin"
-                      onClick={() => setIsOpen(false)}
-                      className={`flex items-center justify-between px-4 py-4 rounded-xl text-lg font-bold transition-all ${
-                        location.pathname === '/admin' ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-teal-600">
-                          <Shield size={20} />
-                        </div>
-                        <span>{t('Admin Panel')}</span>
-                      </div>
-                      <ChevronRight size={18} className={`${isRTL ? 'rotate-180' : ''} opacity-40`} />
-                    </Link>
-                  )}
                 </div>
               </div>
 
-              <div className="p-6 bg-gray-50 border-t border-gray-100">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500 font-medium">{t('Language')}</span>
+              {/* Mobile Drawer Footer */}
+              <div className="p-8 bg-gray-50 border-t border-gray-100">
+                <div className="flex flex-col space-y-4">
+                  <div className="flex items-center justify-between px-2">
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{t('Language Settings')}</span>
+                  </div>
                   <LanguageSwitcher />
                 </div>
               </div>
