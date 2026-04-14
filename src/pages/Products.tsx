@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
-import { sendEmail } from '../lib/email';
 import { 
   ShoppingCart, 
   Package, 
@@ -29,12 +28,12 @@ import {
 } from 'lucide-react';
 import { doc, onSnapshot, collection, query, orderBy } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function Products() {
   const { t } = useLanguage();
   const { profile } = useAuth();
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [state, handleSubmit] = useForm('mlgadnva');
   const [email, setEmail] = useState(profile?.email || '');
   const [heroContent, setHeroContent] = useState<{ imageUrl: string; imageUrls?: string[]; title?: string; description?: string } | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -119,29 +118,6 @@ export default function Products() {
     { label: t('Basic anionic/nonionic polymers'), price: '$1–$12 ' + t('per kg') },
     { label: t('Commodity surfactants'), price: '$1–$3 ' + t('per kg') },
   ];
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const quantity = formData.get('quantity');
-    const chemicalType = formData.get('chemicalType');
-    const requirements = formData.get('requirements');
-
-    try {
-      await sendEmail({
-        userEmail: email,
-        type: 'chemical_order',
-        details: `Chemical Type: ${chemicalType}\nQuantity: ${quantity} Tons\nRequirements: ${requirements || 'None'}`
-      });
-      setSubmitted(true);
-    } catch (error) {
-      alert(t('Failed to send order request. Please try again.'));
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="pt-20">
@@ -369,7 +345,7 @@ export default function Products() {
           </div>
 
           <AnimatePresence mode="wait">
-            {!submitted ? (
+            {!state.succeeded ? (
               <motion.div
                 key="form"
                 initial={{ opacity: 0, y: 20 }}
@@ -384,6 +360,7 @@ export default function Products() {
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                       <input 
                         type="email" 
+                        name="email"
                         required 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -391,6 +368,7 @@ export default function Products() {
                         className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                       />
                     </div>
+                    <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -414,6 +392,7 @@ export default function Products() {
                     <option value="Other">{t('Other Specialty Chemicals')}</option>
                         </select>
                       </div>
+                      <ValidationError prefix="Chemical Type" field="chemicalType" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                     </div>
 
                     <div className="space-y-3">
@@ -429,6 +408,7 @@ export default function Products() {
                           <option value="100-500">100 - 500 {t('Tons')}</option>
                           <option value="500+">500+ {t('Tons')}</option>
                         </select>
+                      <ValidationError prefix="Quantity" field="quantity" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                     </div>
                   </div>
 
@@ -440,14 +420,15 @@ export default function Products() {
                       className="w-full px-6 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all resize-none"
                       placeholder={t('Packaging requirements, delivery timeline, or specific technical specifications...')}
                     ></textarea>
+                    <ValidationError prefix="Requirements" field="requirements" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                   </div>
 
                   <button 
                     type="submit"
-                    disabled={loading}
+                    disabled={state.submitting}
                     className="w-full bg-teal-900 text-white py-5 rounded-2xl font-bold text-lg hover:bg-teal-800 transition-all transform hover:scale-[1.02] shadow-xl shadow-teal-900/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   >
-                    {loading ? (
+                    {state.submitting ? (
                       <>
                         <Loader2 className="animate-spin mr-2" size={20} />
                         {t('Sending...')}
@@ -470,12 +451,6 @@ export default function Products() {
                 <p className="text-xl text-gray-600 mb-10 leading-relaxed max-w-lg mx-auto">
                   {t('Thank you for your interest in Wahat MTQ Chemicals. Our technical sales team will review your request and contact you within 24 hours with a formal quote.')}
                 </p>
-                <button 
-                  onClick={() => setSubmitted(false)}
-                  className="bg-teal-700 text-white px-12 py-4 rounded-2xl font-bold hover:bg-teal-800 transition-all shadow-lg shadow-teal-700/20"
-                >
-                  {t('Place Another Request')}
-                </button>
               </motion.div>
             )}
           </AnimatePresence>

@@ -1,56 +1,12 @@
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock, CheckCircle2, AlertCircle, Globe } from 'lucide-react';
-import { db, handleFirestoreError, OperationType } from '../firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import React from 'react';
+import { Mail, Phone, MapPin, Send, MessageSquare, Clock, CheckCircle2, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { sendEmail } from '../lib/email';
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function Contact() {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: 'Product Quote',
-    message: ''
-  });
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      // 1. Save to Firestore
-      await addDoc(collection(db, 'contact_messages'), {
-        ...formData,
-        createdAt: serverTimestamp()
-      });
-
-      // 2. Send Email Notification
-      await sendEmail({
-        userEmail: formData.email,
-        type: 'contact_message',
-        details: `Name: ${formData.name}\nSubject: ${formData.subject}\nMessage: ${formData.message}`
-      });
-
-      setSuccess(true);
-      setFormData({ name: '', email: '', subject: 'Product Quote', message: '' });
-      setTimeout(() => setSuccess(false), 5000);
-    } catch (err) {
-      handleFirestoreError(err, OperationType.CREATE, 'contact_messages');
-      setError(t('Failed to send message. Please try again later.'));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  const [state, handleSubmit] = useForm('mlgadnva');
 
   return (
     <div className="py-20 bg-gray-50 min-h-screen">
@@ -107,16 +63,6 @@ export default function Contact() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start space-x-4 sm:space-x-5">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-teal-800 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <Globe size={20} className="sm:w-6 sm:h-6" />
-                  </div>
-                  <div>
-                    <p className="text-teal-300 text-xs font-medium mb-1 uppercase tracking-wider">{t('Sub-Offices')}</p>
-                    <p className="text-base sm:text-lg font-bold">{t('Asia • Africa • Europe')}</p>
-                    <p className="text-xs text-teal-200 mt-1 italic">{t('More Offices to be established')}</p>
-                  </div>
-                </div>
               </div>
             </motion.div>
 
@@ -157,7 +103,7 @@ export default function Contact() {
               <h2 className="text-2xl font-bold text-gray-900 mb-8">{t('Send us a Message')}</h2>
               
               <AnimatePresence mode="wait">
-                {success ? (
+                {state.succeeded ? (
                   <motion.div 
                     key="success"
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -170,12 +116,6 @@ export default function Contact() {
                     </div>
                     <h3 className="text-2xl font-bold text-green-900 mb-2">{t('Message Sent!')}</h3>
                     <p className="text-green-700">{t('Thank you for reaching out. Our team will get back to you shortly.')}</p>
-                    <button 
-                      onClick={() => setSuccess(false)}
-                      className="mt-8 text-green-800 font-bold hover:underline"
-                    >
-                      {t('Send another message')}
-                    </button>
                   </motion.div>
                 ) : (
                   <motion.form 
@@ -183,13 +123,6 @@ export default function Contact() {
                     onSubmit={handleSubmit} 
                     className="space-y-6"
                   >
-                    {error && (
-                      <div className="bg-red-50 border border-red-100 text-red-700 p-4 rounded-xl flex items-center space-x-3">
-                        <AlertCircle size={20} />
-                        <span className="text-sm font-medium">{error}</span>
-                      </div>
-                    )}
-                    
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label className="text-sm font-bold text-gray-700 ml-1">{t('Full Name')}</label>
@@ -197,11 +130,10 @@ export default function Contact() {
                           required
                           type="text" 
                           name="name"
-                          value={formData.name}
-                          onChange={handleChange}
                           className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all bg-gray-50/50" 
                           placeholder={t('John Doe')} 
                         />
+                        <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                       </div>
                       <div className="space-y-2">
                         <label className="text-sm font-bold text-gray-700 ml-1">{t('Email Address')}</label>
@@ -209,28 +141,11 @@ export default function Contact() {
                           required
                           type="email" 
                           name="email"
-                          value={formData.email}
-                          onChange={handleChange}
                           className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all bg-gray-50/50" 
                           placeholder={t('john@example.com')} 
                         />
+                        <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                       </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-700 ml-1">{t('Subject')}</label>
-                      <select 
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all appearance-none bg-gray-50/50"
-                      >
-                        <option value="Product Quote">{t('Product Quote')}</option>
-                        <option value="Technical Support">{t('Technical Support')}</option>
-                        <option value="Custom Blending">{t('Custom Blending')}</option>
-                        <option value="Partnership">{t('Partnership')}</option>
-                        <option value="Other Inquiry">{t('Other Inquiry')}</option>
-                      </select>
                     </div>
 
                     <div className="space-y-2">
@@ -238,20 +153,19 @@ export default function Contact() {
                       <textarea 
                         required
                         name="message"
-                        value={formData.message}
-                        onChange={handleChange}
                         rows={5} 
                         className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all resize-none bg-gray-50/50" 
                         placeholder={t('Describe your chemical requirements...')}
                       ></textarea>
+                      <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                     </div>
 
                     <button 
-                      disabled={loading}
+                      disabled={state.submitting}
                       type="submit"
                       className="w-full bg-teal-900 text-white py-5 rounded-2xl font-bold text-lg hover:bg-teal-800 transition-all flex items-center justify-center space-x-3 shadow-xl shadow-teal-900/20 disabled:opacity-70"
                     >
-                      {loading ? (
+                      {state.submitting ? (
                         <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       ) : (
                         <>
@@ -280,7 +194,6 @@ export default function Contact() {
             <p className="font-bold text-gray-900 text-xl mb-2">{t('Dubai Airport Free Zone')}</p>
             <p className="text-gray-500">{t('Dubai Cargo Village')}</p>
           </div>
-          {/* Overlay for aesthetic */}
           <div className="absolute inset-0 bg-teal-900/5 pointer-events-none"></div>
         </motion.div>
       </div>

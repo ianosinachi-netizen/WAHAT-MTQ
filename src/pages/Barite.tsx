@@ -6,12 +6,12 @@ import { sendEmail } from '../lib/email';
 import { ShoppingCart, Package, Info, CheckCircle, ArrowRight, Beaker, ShieldCheck, Globe, Zap, Activity, Microscope, ChevronLeft, ChevronRight, Mail, Loader2, Database } from 'lucide-react';
 import { doc, onSnapshot, collection, query, orderBy } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function Barite() {
   const { t } = useLanguage();
   const { user } = useAuth();
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [state, handleSubmit] = useForm('mlgadnva');
   const [email, setEmail] = useState(user?.email || '');
   const [heroContent, setHeroContent] = useState<{ imageUrl: string; imageUrls?: string[]; title?: string; description?: string } | null>(null);
   const [dynamicProperties, setDynamicProperties] = useState<any[]>([]);
@@ -106,29 +106,6 @@ export default function Barite() {
   const treatmentSteps = [
     t('Mining'), t('Crushing'), t('Grinding'), t('Washing'), t('Gravity Separation'), t('Drying'), t('Pulverizing (Milling)'), t('Final Product (Lumps / Powder)')
   ];
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const quantity = formData.get('quantity');
-    const grade = formData.get('grade');
-    const requirements = formData.get('requirements');
-
-    try {
-      await sendEmail({
-        userEmail: email,
-        type: 'barite_order',
-        details: `Quantity: ${quantity} Tons\nGrade: ${grade}\nRequirements: ${requirements || 'None'}`
-      });
-      setSubmitted(true);
-    } catch (error) {
-      alert(t('Failed to send order request. Please try again.'));
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="pt-20">
@@ -390,7 +367,7 @@ export default function Barite() {
               </div>
 
               <div className="bg-white p-12 lg:p-16 border-l border-teal-100">
-                {submitted ? (
+                {state.succeeded ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -401,12 +378,6 @@ export default function Barite() {
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('Request Sent!')}</h3>
                     <p className="text-gray-600 mb-8">{t('We will contact you shortly with the technical details and pricing.')}</p>
-                    <button
-                      onClick={() => setSubmitted(false)}
-                      className="text-teal-600 font-bold hover:text-teal-700 flex items-center gap-2 mx-auto"
-                    >
-                      {t('Send another request')} <ArrowRight className="w-4 h-4" />
-                    </button>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -414,12 +385,14 @@ export default function Barite() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">{t('Email Address')}</label>
                       <input
                         type="email"
+                        name="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
                         placeholder="your@email.com"
                       />
+                      <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-500 text-xs mt-1" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -431,6 +404,7 @@ export default function Barite() {
                           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
                           placeholder="500"
                         />
+                        <ValidationError prefix="Quantity" field="quantity" errors={state.errors} className="text-red-500 text-xs mt-1" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">{t('Required Grade')}</label>
@@ -443,6 +417,7 @@ export default function Barite() {
                           <option>Paint Grade</option>
                           <option>Micronized</option>
                         </select>
+                        <ValidationError prefix="Grade" field="grade" errors={state.errors} className="text-red-500 text-xs mt-1" />
                       </div>
                     </div>
                     <div>
@@ -453,13 +428,14 @@ export default function Barite() {
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
                         placeholder={t('Tell us about your specific needs...')}
                       ></textarea>
+                      <ValidationError prefix="Requirements" field="requirements" errors={state.errors} className="text-red-500 text-xs mt-1" />
                     </div>
                     <button
                       type="submit"
-                      disabled={loading}
+                      disabled={state.submitting}
                       className="w-full bg-teal-600 hover:bg-teal-700 text-white py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                     >
-                      {loading ? (
+                      {state.submitting ? (
                         <Loader2 className="w-5 h-5 animate-spin" />
                       ) : (
                         <>
