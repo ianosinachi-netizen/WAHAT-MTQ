@@ -36,7 +36,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-teal-300 text-xs font-medium mb-1 uppercase tracking-wider">{t('Call Us')}</p>
-                    <p className="text-base sm:text-lg font-bold">+1 (555) 123-4567</p>
+                    <p className="text-base sm:text-lg font-bold">+1 (503) 832 0116</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4 sm:space-x-5">
@@ -45,8 +45,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-teal-300 text-xs font-medium mb-1 uppercase tracking-wider">{t('Email Us')}</p>
-                    <p className="text-base sm:text-lg font-bold break-all">sales@wahatmtqcl.com</p>
-                    <p className="text-base sm:text-lg font-bold break-all">customercare@wahatmtqcl.com</p>
+                    <p className="text-base sm:text-lg font-bold break-all">Sales@wahatmtq.com</p>
+                    <p className="text-base sm:text-lg font-bold break-all">Info@wahatmtq.com</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4 sm:space-x-5">

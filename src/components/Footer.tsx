@@ -69,10 +69,14 @@ export default function Footer() {
                 </span>
               </li>
               <li className="flex items-center space-x-3">
+                <Phone size={18} className="text-teal-500" />
+                <span>+1 (503) 832 0116</span>
+              </li>
+              <li className="flex items-center space-x-3">
                 <Mail size={18} className="text-teal-500" />
                 <div className="flex flex-col">
-                  <span>sales@wahatmtqcl.com</span>
-                  <span>customercare@wahatmtqcl.com</span>
+                  <span>Sales@wahatmtq.com</span>
+                  <span>Info@wahatmtq.com</span>
                 </div>
               </li>
             </ul>
