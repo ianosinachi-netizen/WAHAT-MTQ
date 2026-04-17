@@ -77,34 +77,41 @@ export default function Barite() {
   }, [heroContent?.imageUrls, currentHeroIndex]);
 
   const baritePrices = [
-    { label: t('High-purity / micronized'), price: '$498 – $1,000+' },
-    { label: t('Drilling-grade (oil & gas)'), price: '$147 – $760' },
-    { label: t('Standard commercial grade'), price: '$100 – $300' },
-    { label: t('Low / industrial grade'), price: '$90 – $110' },
+    { label: 'barite.properties.high_purity', price: '$498 – $1,000+' },
+    { label: 'barite.properties.drilling_grade', price: '$147 – $760' },
+    { label: 'barite.properties.commercial_grade', price: '$100 – $300' },
+    { label: 'barite.properties.low_grade', price: '$90 – $110' },
   ];
 
   const properties = [
-    { label: t('Chemical formula'), value: 'BaSO₄ (barium sulfate)' },
-    { label: t('Color'), value: t('White, grey, yellow, or brown') },
-    { label: t('Specific gravity'), value: '4.2 – 4.5 (very heavy)' },
-    { label: t('Hardness'), value: '3 – 3.5 (Mohs scale)' },
-    { label: t('Luster'), value: t('Glassy (vitreous) to dull') },
-    { label: t('Streak'), value: t('White') },
-    { label: t('Solubility'), value: t('Insoluble in water') },
+    { label: 'barite.properties.chemical_formula', value: 'BaSO₄ (barium sulfate)' },
+    { label: 'barite.properties.color_label', value: 'barite.properties.color_value' },
+    { label: 'barite.properties.gravity', value: '4.2 – 4.5' },
+    { label: 'barite.properties.hardness', value: '3 – 3.5' },
+    { label: 'barite.properties.luster_label', value: 'barite.properties.luster_value' },
+    { label: 'barite.properties.streak_label', value: 'barite.properties.streak_value' },
+    { label: 'barite.properties.solubility_label', value: 'barite.properties.solubility_value' },
   ];
 
   const applications = [
-    { title: t('Oil and Gas Industry'), desc: t('Mainly used as a weighting agent in drilling fluids (mud). Helps control underground pressure, prevents blowouts, and stabilizes the borehole.') },
-    { title: t('Paints and Coatings'), desc: t('Used as a filler and extender. Improves brightness, durability, and corrosion resistance.') },
-    { title: t('Chemical Industry'), desc: t('Production of barium compounds for glass, ceramics, and chemicals.') },
-    { title: t('Construction Industry'), desc: t('Used in heavy concrete for radiation shielding in hospitals and nuclear facilities.') },
-    { title: t('Medical Applications'), desc: t('Barium sulfate suspensions for X-ray imaging of the digestive system.') },
-    { title: t('Plastics and Rubber'), desc: t('Increases strength, weight, and sound insulation.') },
-    { title: t('Automotive Industry'), desc: t('Used in brake pads and clutch parts.') },
+    { title: t('barite.applications.oil_gas.title'), desc: t('barite.applications.oil_gas.desc') },
+    { title: t('barite.applications.paints.title'), desc: t('barite.applications.paints.desc') },
+    { title: t('barite.applications.chemical.title'), desc: t('barite.applications.chemical.desc') },
+    { title: t('barite.applications.construction.title'), desc: t('barite.applications.construction.desc') },
+    { title: t('barite.applications.medical.title'), desc: t('barite.applications.medical.desc') },
+    { title: t('barite.applications.plastics.title'), desc: t('barite.applications.plastics.desc') },
+    { title: t('barite.applications.automotive.title'), desc: t('barite.applications.automotive.desc') },
   ];
 
   const treatmentSteps = [
-    t('Mining'), t('Crushing'), t('Grinding'), t('Washing'), t('Gravity Separation'), t('Drying'), t('Pulverizing (Milling)'), t('Final Product (Lumps / Powder)')
+    t('barite.treatment.steps.mining'), 
+    t('barite.treatment.steps.crushing'), 
+    t('barite.treatment.steps.grinding'), 
+    t('barite.treatment.steps.washing'), 
+    t('barite.treatment.steps.gravity'), 
+    t('barite.treatment.steps.drying'), 
+    t('barite.treatment.steps.pulverizing'), 
+    t('barite.treatment.steps.final')
   ];
 
   return (
@@ -118,7 +125,7 @@ export default function Barite() {
                 <motion.img
                   key={heroContent.imageUrls[currentHeroIndex]}
                   src={heroContent.imageUrls[currentHeroIndex]}
-                  alt="Barite Hero"
+                  alt={t('barite.hero.title')}
                   initial={{ opacity: 0, scale: 1.1 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
@@ -136,7 +143,7 @@ export default function Barite() {
           ) : heroContent?.imageUrl ? (
             <img
               src={heroContent.imageUrl}
-              alt="Barite Hero"
+              alt={t('barite.hero.title')}
               className="w-full h-full object-cover opacity-100"
               referrerPolicy="no-referrer"
               onError={(e) => {
@@ -160,14 +167,10 @@ export default function Barite() {
               className="max-w-3xl"
             >
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-[1.1] sm:leading-tight">
-                {heroContent?.title ? t(heroContent.title) : (
-                  <>
-                    {t('Premium')} <span className="text-teal-400">{t('Barite')}</span> {t('Solutions')}
-                  </>
-                )}
+                {heroContent?.title ? t(heroContent.title) : t('barite.hero.title')}
               </h1>
               <p className="text-lg sm:text-xl text-teal-100 leading-relaxed mb-8">
-                {heroContent?.description ? t(heroContent.description) : t('Wahat MTQ Chemicals has the best Barite for drilling and industrial uses. Quality, grade, and performance tailored to your specific needs.')}
+                {heroContent?.description ? t(heroContent.description) : t('barite.hero.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
@@ -175,14 +178,14 @@ export default function Barite() {
                   className="bg-teal-500 hover:bg-teal-400 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20"
                 >
                   <ShoppingCart className="w-5 h-5" />
-                  {t('Order Now')}
+                  {t('common.order_now')}
                 </a>
                 <a
                   href="#properties"
                   className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-bold transition-all backdrop-blur-sm border border-white/20 flex items-center justify-center gap-2 active:scale-95"
                 >
                   <Info className="w-5 h-5" />
-                  {t('Technical Specs')}
+                  {t('common.technical_specs')}
                 </a>
               </div>
             </motion.div>
@@ -247,14 +250,14 @@ export default function Barite() {
       <section id="properties" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('Technical Properties')}</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('barite.properties.title')}</h2>
             <div className="w-20 h-1 bg-teal-600 mx-auto"></div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
               <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-teal-700">
                 <Beaker className="w-6 h-6" />
-                {t('Physical & Chemical Characteristics')}
+                {t('barite.properties.chemical')}
               </h3>
               <div className="space-y-4">
                 {(dynamicProperties.length > 0 ? dynamicProperties : properties).map((prop, idx) => (
@@ -268,18 +271,18 @@ export default function Barite() {
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
               <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-teal-700">
                 <Activity className="w-6 h-6" />
-                {t('Market Price Range (USD/Ton)')}
+                {t('barite.properties.price')}
               </h3>
               <div className="space-y-4">
                 {baritePrices.map((item, idx) => (
                   <div key={idx} className="flex flex-col sm:flex-row sm:justify-between py-3 border-b border-gray-50 last:border-0 gap-1 sm:gap-4">
-                    <span className="text-gray-600 font-medium text-sm sm:text-base">{item.label}</span>
-                    <span className="text-teal-600 font-bold text-sm sm:text-base">{item.price}</span>
+                    <span className="text-gray-600 font-medium text-sm sm:text-base">{t(item.label)}</span>
+                    <span className="text-teal-600 font-bold text-sm sm:text-base">{t(item.price)}</span>
                   </div>
                 ))}
               </div>
               <p className="mt-6 text-sm text-gray-500 italic">
-                * {t('Prices are indicative and vary based on purity, mesh size, and market conditions.')}
+                * {t('barite.properties.price_note')}
               </p>
             </div>
           </div>
@@ -290,7 +293,7 @@ export default function Barite() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('Key Applications')}</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('barite.applications.title')}</h2>
             <div className="w-20 h-1 bg-teal-600 mx-auto"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -315,7 +318,7 @@ export default function Barite() {
       <section className="py-20 bg-teal-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">{t('Treatment & Processing')}</h2>
+            <h2 className="text-3xl font-bold mb-4">{t('barite.treatment.title')}</h2>
             <div className="w-20 h-1 bg-teal-400 mx-auto"></div>
           </div>
           <div className="relative">
@@ -326,7 +329,7 @@ export default function Barite() {
                   <div className="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center font-bold text-lg mb-4 relative z-10 shadow-lg shadow-teal-500/20">
                     {idx + 1}
                   </div>
-                  <span className="text-sm font-medium text-teal-100">{step}</span>
+                  <span className="text-sm font-medium text-teal-100">{t(step)}</span>
                 </div>
               ))}
             </div>
@@ -340,28 +343,28 @@ export default function Barite() {
           <div className="bg-teal-50 rounded-3xl overflow-hidden shadow-xl">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="p-12 lg:p-16">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('Request a Quote')}</h2>
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('barite.quote.title')}</h2>
                 <p className="text-gray-600 mb-8">
-                  {t('Need specific grade Barite for your operations? Fill out the form and our technical team will get back to you with a customized solution.')}
+                  {t('barite.quote.desc')}
                 </p>
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
                       <CheckCircle className="w-6 h-6 text-teal-600" />
                     </div>
-                    <span className="text-gray-700">{t('Custom mesh sizes available')}</span>
+                    <span className="text-gray-700">{t('barite.quote.meshes')}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
                       <CheckCircle className="w-6 h-6 text-teal-600" />
                     </div>
-                    <span className="text-gray-700">{t('Bulk shipping worldwide')}</span>
+                    <span className="text-gray-700">{t('barite.quote.shipping')}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
                       <CheckCircle className="w-6 h-6 text-teal-600" />
                     </div>
-                    <span className="text-gray-700">{t('Technical support & consulting')}</span>
+                    <span className="text-gray-700">{t('barite.quote.support')}</span>
                   </div>
                 </div>
               </div>
@@ -376,13 +379,13 @@ export default function Barite() {
                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <CheckCircle className="w-10 h-10 text-green-600" />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('Request Sent!')}</h3>
-                    <p className="text-gray-600 mb-8">{t('We will contact you shortly with the technical details and pricing.')}</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('common.success')}</h3>
+                    <p className="text-gray-600 mb-8">{t('contact.form.success_desc')}</p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">{t('Email Address')}</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">{t('common.email')}</label>
                       <input
                         type="email"
                         name="email"
@@ -396,7 +399,7 @@ export default function Barite() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('Quantity (Tons)')}</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('products.order.quantity_label')}</label>
                         <input
                           type="number"
                           name="quantity"
@@ -407,26 +410,26 @@ export default function Barite() {
                         <ValidationError prefix="Quantity" field="quantity" errors={state.errors} className="text-red-500 text-xs mt-1" />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('Required Grade')}</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('products.order.type_label')}</label>
                         <select
                           name="grade"
                           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
                         >
-                          <option>Drilling Grade (4.2)</option>
-                          <option>Chemical Grade</option>
-                          <option>Paint Grade</option>
-                          <option>Micronized</option>
+                      <option>{t('barite.order.grades.drilling')}</option>
+                      <option>{t('barite.order.grades.chemical')}</option>
+                      <option>{t('barite.order.grades.paint')}</option>
+                      <option>{t('barite.order.grades.micronized')}</option>
                         </select>
                         <ValidationError prefix="Grade" field="grade" errors={state.errors} className="text-red-500 text-xs mt-1" />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">{t('Specific Requirements')}</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">{t('products.order.requirements_label')}</label>
                       <textarea
                         name="requirements"
                         rows={4}
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
-                        placeholder={t('Tell us about your specific needs...')}
+                        placeholder={t('contact.form.placeholder.message')}
                       ></textarea>
                       <ValidationError prefix="Requirements" field="requirements" errors={state.errors} className="text-red-500 text-xs mt-1" />
                     </div>
@@ -440,7 +443,7 @@ export default function Barite() {
                       ) : (
                         <>
                           <Mail className="w-5 h-5" />
-                          {t('Get a Quote')}
+                          {t('common.get_quote')}
                         </>
                       )}
                     </button>

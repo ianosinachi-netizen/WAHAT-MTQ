@@ -5,38 +5,38 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 const capabilities = [
   {
-    title: 'Industrial Chemical Supply',
-    description: 'We provide a vast range of high-quality industrial chemicals sourced from global manufacturers, ensuring reliability and consistency for your production needs.',
+    title: 'capabilities.items.supply.title',
+    description: 'capabilities.items.supply.description',
     icon: Factory,
     color: 'bg-blue-50 text-blue-600',
   },
   {
-    title: 'Laboratory Services',
-    description: 'Our state-of-the-art laboratory facilities offer comprehensive testing, analysis, and quality verification services to meet stringent industry standards.',
+    title: 'capabilities.items.lab.title',
+    description: 'capabilities.items.lab.description',
     icon: FlaskConical,
     color: 'bg-teal-50 text-teal-600',
   },
   {
-    title: 'Bulk Manufacturing',
-    description: 'Equipped with advanced processing units, we specialize in the bulk manufacturing of chemical formulations tailored to specific industrial requirements.',
+    title: 'capabilities.items.bulk.title',
+    description: 'capabilities.items.bulk.description',
     icon: Package,
     color: 'bg-amber-50 text-amber-600',
   },
   {
-    title: 'Quality Control Systems',
-    description: 'Our rigorous quality control systems monitor every stage of the supply chain, from sourcing to delivery, ensuring the highest level of product integrity.',
+    title: 'capabilities.items.qc.title',
+    description: 'capabilities.items.qc.description',
     icon: ShieldCheck,
     color: 'bg-green-50 text-green-600',
   },
   {
-    title: 'Logistics and Distribution',
-    description: 'With a robust logistics network, we ensure safe and timely distribution of chemical products across diverse geographical locations.',
+    title: 'capabilities.items.logistics.title',
+    description: 'capabilities.items.logistics.description',
     icon: Truck,
     color: 'bg-purple-50 text-purple-600',
   },
   {
-    title: 'Technical Consultation',
-    description: 'Our team of experts provides technical guidance and consultation to help you optimize your chemical processes and achieve operational excellence.',
+    title: 'capabilities.items.consultation.title',
+    description: 'capabilities.items.consultation.description',
     icon: BarChart3,
     color: 'bg-rose-50 text-rose-600',
   },
@@ -54,7 +54,7 @@ export default function Capabilities() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
           >
-            {t('Our Capabilities')}
+            {t('capabilities.title')}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -62,7 +62,7 @@ export default function Capabilities() {
             transition={{ delay: 0.1 }}
             className="text-lg text-gray-600 max-w-3xl mx-auto"
           >
-            {t('Leveraging advanced technology and deep industry expertise to deliver comprehensive chemical solutions for global industrial challenges.')}
+            {t('capabilities.description')}
           </motion.p>
         </div>
 
@@ -93,15 +93,15 @@ export default function Capabilities() {
           className="mt-20 bg-teal-900 rounded-[3rem] p-12 text-center text-white relative overflow-hidden"
         >
           <div className="relative z-10">
-            <h2 className="text-3xl font-bold mb-6">{t('Ready to optimize your supply chain?')}</h2>
+            <h2 className="text-3xl font-bold mb-6">{t('capabilities.footer.title')}</h2>
             <p className="text-teal-100 mb-8 max-w-2xl mx-auto">
-              {t('Partner with us to leverage our extensive capabilities and drive efficiency in your chemical procurement and manufacturing processes.')}
+              {t('capabilities.footer.description')}
             </p>
             <a 
               href="/contact" 
               className="inline-block bg-white text-teal-900 px-10 py-4 rounded-2xl font-bold hover:bg-teal-50 transition-all shadow-lg"
             >
-              {t('Contact Our Experts')}
+              {t('capabilities.footer.cta')}
             </a>
           </div>
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl" />

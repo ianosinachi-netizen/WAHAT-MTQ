@@ -51,8 +51,8 @@ const AdminPanel = () => {
           <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-red-600">
             <AlertCircle size={32} />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('Access Denied')}</h2>
-          <p className="text-gray-500 font-medium">{t('Admin privileges are required to access this panel.')}</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('common.error')}</h2>
+          <p className="text-gray-500 font-medium">{t('admin.portal.access_denied')}</p>
         </div>
       </div>
     );
@@ -61,7 +61,7 @@ const AdminPanel = () => {
   // Handle file selection
   const handleFile = (file: File) => {
     if (!file.type.startsWith('image/')) {
-      setError(t("Please select an image file."));
+      setError(t("admin.messages.invalid_file"));
       return;
     }
     setError("");
@@ -247,7 +247,7 @@ const AdminPanel = () => {
   };
 
   const handleClearAll = async () => {
-    if (!window.confirm(t("Are you sure you want to delete ALL items in this category? This cannot be undone."))) return;
+    if (!window.confirm(t("admin.manage.confirm_clear_all"))) return;
     
     setClearingAll(true);
     setError("");
@@ -269,7 +269,7 @@ const AdminPanel = () => {
 
   const handleUpload = async () => {
     if (!editingId && !imageFile && !['testimonials', 'barite_properties', 'barite_applications'].includes(uploadType)) {
-      setError(t("Please select an image"));
+      setError(t("admin.messages.select_image"));
       return;
     }
 
@@ -280,7 +280,7 @@ const AdminPanel = () => {
         (uploadType === 'testimonials' && !title) ||
         (uploadType === 'barite_properties' && !label) ||
         (uploadType === 'barite_applications' && !title)) {
-      setError(t("Please fill in all required fields"));
+      setError(t("admin.messages.fill_fields"));
       return;
     }
 
@@ -292,11 +292,15 @@ const AdminPanel = () => {
       let downloadURL = preview;
 
       if (imageFile) {
-        let folder = 'products';
-        if (uploadType === 'page_content') folder = 'page_content';
-        if (uploadType === 'gallery') folder = 'gallery';
-        if (uploadType === 'services') folder = 'services';
-        if (uploadType === 'settings') folder = 'settings';
+      const folderMap: Record<string, string> = {
+        'products': t('products'),
+        'page_content': t('page_content'),
+        'gallery': t('gallery'),
+        'services': t('services'),
+        'settings': t('settings')
+      };
+      
+      let folder = folderMap[uploadType] || uploadType;
 
         const storageRef = ref(
           storage,
@@ -502,8 +506,8 @@ const AdminPanel = () => {
                 <Upload size={24} />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('Admin Portal')}</h2>
-                <p className="text-gray-500 text-sm font-medium">{t('Manage products, gallery and content')}</p>
+                <h2 className="text-2xl font-bold text-gray-900">{t('admin.portal.title')}</h2>
+                <p className="text-gray-500 text-sm font-medium">{t('admin.portal.subtitle')}</p>
               </div>
             </div>
           </div>
@@ -525,7 +529,7 @@ const AdminPanel = () => {
               }`}
             >
               <Upload size={18} />
-              <span>{editingId ? t('Edit Item') : t('Upload New')}</span>
+              <span>{editingId ? t('admin.tabs.edit') : t('admin.tabs.upload')}</span>
             </button>
             <button
               onClick={() => setMode('manage')}
@@ -534,7 +538,7 @@ const AdminPanel = () => {
               }`}
             >
               <Settings size={18} />
-              <span>{t('Manage Existing')}</span>
+              <span>{t('admin.tabs.manage')}</span>
             </button>
           </div>
 
@@ -545,7 +549,7 @@ const AdminPanel = () => {
                 uploadType === 'products' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Products')}
+              {t('admin.categories.products')}
             </button>
             <button
               onClick={() => setUploadType('gallery')}
@@ -553,7 +557,7 @@ const AdminPanel = () => {
                 uploadType === 'gallery' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Gallery')}
+              {t('nav.gallery')}
             </button>
             <button
               onClick={() => setUploadType('page_content')}
@@ -561,7 +565,7 @@ const AdminPanel = () => {
                 uploadType === 'page_content' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Page Content')}
+              {t('admin.categories.content')}
             </button>
             <button
               onClick={() => setUploadType('services')}
@@ -569,7 +573,7 @@ const AdminPanel = () => {
                 uploadType === 'services' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Services')}
+              {t('nav.services')}
             </button>
             <button
               onClick={() => setUploadType('testimonials')}
@@ -577,7 +581,7 @@ const AdminPanel = () => {
                 uploadType === 'testimonials' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Testimonials')}
+              {t('home.testimonials.title')}
             </button>
             <button
               onClick={() => setUploadType('barite_properties')}
@@ -585,7 +589,7 @@ const AdminPanel = () => {
                 uploadType === 'barite_properties' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Barite Props')}
+              {t('barite.properties.title')}
             </button>
             <button
               onClick={() => setUploadType('barite_applications')}
@@ -593,7 +597,7 @@ const AdminPanel = () => {
                 uploadType === 'barite_applications' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Barite Apps')}
+              {t('barite.applications.title')}
             </button>
             <button
               onClick={() => setUploadType('settings')}
@@ -601,18 +605,18 @@ const AdminPanel = () => {
                 uploadType === 'settings' ? 'bg-white text-teal-900 shadow-sm border border-gray-100' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Settings')}
+              {t('nav.language_settings')}
             </button>
           </div>
 
           {mode === 'upload' ? (
             <div className="space-y-6">
-              {uploadType === 'products' && (
+               {uploadType === 'products' && (
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700">{t('Product Name')}</label>
+                  <label className="text-sm font-bold text-gray-700">{t('common.name')}</label>
                   <input
                     type="text"
-                    placeholder={t("Enter product name")}
+                    placeholder={t("admin.form.name_placeholder")}
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
@@ -623,29 +627,29 @@ const AdminPanel = () => {
               {uploadType === 'gallery' && (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Image Title')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.title')}</label>
                     <input
                       type="text"
-                      placeholder={t("Enter image title")}
+                      placeholder={t("admin.form.title_placeholder")}
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Description (Optional)')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('common.description')}</label>
                     <textarea
-                      placeholder={t("Enter image description")}
+                      placeholder={t("admin.form.desc_placeholder")}
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all min-h-[80px]"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Category (Optional)')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('common.category')}</label>
                     <input
                       type="text"
-                      placeholder={t("e.g. Facilities, Products, Operations")}
+                      placeholder={t("admin.form.category_placeholder")}
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
@@ -657,80 +661,78 @@ const AdminPanel = () => {
               {uploadType === 'services' && (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Service Title')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.title')}</label>
                     <input
                       type="text"
-                      placeholder={t("Enter service title")}
+                      placeholder={t("admin.form.title_placeholder")}
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Short Description')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.short_desc')}</label>
                     <input
                       type="text"
-                      placeholder={t("Enter short description")}
+                      placeholder={t("admin.form.short_desc_placeholder")}
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Full Details')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.full_details')}</label>
                     <textarea
-                      placeholder={t("Enter full service details")}
+                      placeholder={t("admin.form.full_details_placeholder")}
                       value={details}
                       onChange={(e) => setDetails(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all min-h-[100px]"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Icon (Lucide Name)')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.icon')}</label>
                     <select
                       value={icon}
                       onChange={(e) => setIcon(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all bg-white"
                     >
-                      <option value="Beaker">Beaker</option>
-                      <option value="FlaskConical">FlaskConical</option>
-                      <option value="Droplets">Droplets</option>
-                      <option value="ShieldCheck">ShieldCheck</option>
-                      <option value="Globe">Globe</option>
-                      <option value="Zap">Zap</option>
-                      <option value="Activity">Activity</option>
-                      <option value="Microscope">Microscope</option>
+                      <option value="Beaker">{t('services.items.blending.title')}</option>
+                      <option value="FlaskConical">{t('services.items.lab.title')}</option>
+                      <option value="Droplets">{t('products.surfactants.title')}</option>
+                      <option value="ShieldCheck">{t('services.items.compliance.title')}</option>
+                      <option value="Globe">{t('services.items.sourcing.title')}</option>
+                      <option value="Zap">{t('services.items.rd.title')}</option>
                     </select>
                   </div>
                 </div>
               )}
 
-              {uploadType === 'testimonials' && (
+               {uploadType === 'testimonials' && (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Client Name')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.client_name')}</label>
                     <input
                       type="text"
-                      placeholder={t("Enter client name")}
+                      placeholder={t("admin.form.client_name_placeholder")}
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Company')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.company')}</label>
                     <input
                       type="text"
-                      placeholder={t("Enter company name")}
+                      placeholder={t("admin.form.company_placeholder")}
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Testimonial Text')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.testimonial')}</label>
                     <textarea
-                      placeholder={t("Enter testimonial")}
+                      placeholder={t("admin.form.testimonial_placeholder")}
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all min-h-[100px]"
@@ -742,20 +744,20 @@ const AdminPanel = () => {
               {uploadType === 'barite_properties' && (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Property Label')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.prop_label')}</label>
                     <input
                       type="text"
-                      placeholder={t("e.g. Specific Gravity")}
+                      placeholder={t("admin.form.prop_label_placeholder")}
                       value={label}
                       onChange={(e) => setLabel(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Property Value')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.prop_value')}</label>
                     <input
                       type="text"
-                      placeholder={t("e.g. 4.2 - 4.5")}
+                      placeholder={t("admin.form.prop_value_placeholder")}
                       value={value}
                       onChange={(e) => setValue(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
@@ -767,19 +769,19 @@ const AdminPanel = () => {
               {uploadType === 'barite_applications' && (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Application Title')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.app_title')}</label>
                     <input
                       type="text"
-                      placeholder={t("Enter application title")}
+                      placeholder={t("admin.form.app_title_placeholder")}
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Description')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('common.description')}</label>
                     <textarea
-                      placeholder={t("Enter application description")}
+                      placeholder={t("admin.form.app_desc_placeholder")}
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all min-h-[100px]"
@@ -799,35 +801,35 @@ const AdminPanel = () => {
               )}
 
               {uploadType === 'page_content' && (
-                <div className="space-y-4">
+                  <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Section ID')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.section_id')}</label>
                     <select
                       value={sectionId}
                       onChange={(e) => setSectionId(e.target.value)}
                       disabled={!!editingId}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all bg-white disabled:bg-gray-50"
                     >
-                      <option value="barite-hero">{t('Barite Hero')}</option>
-                      <option value="home-hero">{t('Home Hero')}</option>
-                      <option value="home-about">{t('Home About Us')}</option>
-                      <option value="chemicals-hero">{t('Chemicals Hero')}</option>
+                      <option value="barite-hero">{t('barite.hero.title')}</option>
+                      <option value="home-hero">{t('home.hero.title')}</option>
+                      <option value="home-about">{t('about.title')}</option>
+                      <option value="chemicals-hero">{t('nav.chemicals')}</option>
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Display Title (Optional)')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('admin.form.title')}</label>
                     <input
                       type="text"
-                      placeholder={t("Enter title")}
+                      placeholder={t("admin.form.title_placeholder")}
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">{t('Description (Optional)')}</label>
+                    <label className="text-sm font-bold text-gray-700">{t('common.description')}</label>
                     <textarea
-                      placeholder={t("Enter description")}
+                      placeholder={t("admin.form.desc_placeholder")}
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all min-h-[100px]"
@@ -1005,10 +1007,10 @@ const AdminPanel = () => {
                   >
                     <CheckCircle size={18} />
                     <span>
-                      {editingId ? t('Item updated successfully!') :
-                       uploadType === 'products' ? t('Product uploaded successfully!') : 
-                       uploadType === 'gallery' ? t('Gallery image uploaded successfully!') :
-                       t('Page content updated successfully!')}
+                      {editingId ? t('admin.messages.update_success') :
+                       uploadType === 'products' ? t('admin.messages.product_success') : 
+                       uploadType === 'gallery' ? t('admin.messages.gallery_success') :
+                       t('admin.messages.content_success')}
                     </span>
                   </motion.div>
                 )}
@@ -1026,16 +1028,16 @@ const AdminPanel = () => {
                 {uploading ? (
                   <>
                     <Loader2 className="animate-spin" size={20} />
-                    <span>{t('Processing...')}</span>
+                    <span>{t('admin.messages.processing')}</span>
                   </>
                 ) : (
                   <>
                     {editingId ? <Edit2 size={20} /> : <Upload size={20} />}
                     <span>
-                      {editingId ? t('Update Item') :
-                       uploadType === 'products' ? t('Upload Product') : 
-                       uploadType === 'gallery' ? t('Upload to Gallery') :
-                       t('Update Page Content')}
+                      {editingId ? t('admin.form.update_btn') :
+                       uploadType === 'products' ? t('admin.form.upload_product') : 
+                       uploadType === 'gallery' ? t('admin.form.upload_gallery') :
+                       t('admin.form.update_content')}
                     </span>
                   </>
                 )}
@@ -1046,19 +1048,19 @@ const AdminPanel = () => {
               {loadingItems ? (
                 <div className="flex flex-col items-center justify-center py-12">
                   <Loader2 className="animate-spin text-teal-600 mb-4" size={32} />
-                  <p className="text-gray-500 font-medium">{t('Loading items...')}</p>
+                  <p className="text-gray-500 font-medium">{t('admin.messages.loading')}</p>
                 </div>
               ) : items.length > 0 ? (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center px-2">
-                    <span className="text-sm font-bold text-gray-500">{items.length} {t('Items Found')}</span>
+                    <span className="text-sm font-bold text-gray-500">{items.length} {t('admin.manage.items_found')}</span>
                     <button
                       onClick={handleClearAll}
                       disabled={clearingAll}
                       className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors flex items-center space-x-1 disabled:opacity-50"
                     >
                       {clearingAll ? <Loader2 className="animate-spin" size={12} /> : <Trash2 size={12} />}
-                      <span>{t('Clear All')}</span>
+                      <span>{t('admin.manage.clear_all')}</span>
                     </button>
                   </div>
                   <div className="grid grid-cols-1 gap-4">
@@ -1084,14 +1086,14 @@ const AdminPanel = () => {
                         )}
                         <div>
                           <h4 className="font-bold text-gray-900 line-clamp-1">{t(item.title || item.name || item.label || item.id)}</h4>
-                          <p className="text-xs text-gray-500 font-medium">{t(item.category || item.company || item.value || (uploadType === 'page_content' ? 'Section' : 'General'))}</p>
+                          <p className="text-xs text-gray-500 font-medium">{t(item.category || item.company || item.value || (uploadType === 'page_content' ? 'admin.categories.content' : 'common.general'))}</p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
                         <button 
                           onClick={() => handleEdit(item)}
                           className="p-2 text-teal-600 hover:bg-teal-50 rounded-lg transition-colors"
-                          title={t('Edit')}
+                          title={t('common.edit')}
                         >
                           <Edit2 size={18} />
                         </button>
@@ -1106,7 +1108,7 @@ const AdminPanel = () => {
                             }
                           }}
                           className={`p-2 rounded-lg transition-all ${confirmDeleteId === item.id ? 'bg-red-600 text-white' : 'text-red-600 hover:bg-red-50'}`}
-                          title={confirmDeleteId === item.id ? t('Click again to confirm') : t('Delete')}
+                          title={confirmDeleteId === item.id ? t('admin.manage.confirm_delete') : t('common.delete')}
                         >
                           {confirmDeleteId === item.id ? <X size={18} /> : <Trash2 size={18} />}
                         </button>
@@ -1118,7 +1120,7 @@ const AdminPanel = () => {
               ) : (
                 <div className="text-center py-12 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
                   <ImageIcon className="mx-auto text-gray-300 mb-4" size={40} />
-                  <p className="text-gray-500 font-medium">{t('No items found in this category.')}</p>
+                  <p className="text-gray-500 font-medium">{t('admin.messages.no_items')}</p>
                 </div>
               )}
             </div>

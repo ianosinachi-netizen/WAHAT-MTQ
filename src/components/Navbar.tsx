@@ -9,19 +9,19 @@ import { db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 const navLinks = [
-  { name: 'Home', path: '/', icon: Home },
-  { name: 'Barite', path: '/barite', icon: Box },
-  { name: 'Chemicals', path: '/products', icon: Droplets },
+  { name: 'nav.home', path: '/', icon: Home },
+  { name: 'nav.barite', path: '/barite', icon: Box },
+  { name: 'nav.chemicals', path: '/products', icon: Droplets },
   { 
-    name: 'Capabilities', 
+    name: 'nav.capabilities', 
     path: '/capabilities',
     icon: Layers,
     dropdown: [
-      { name: 'Services', path: '/services' },
+      { name: 'nav.services', path: '/services' },
     ]
   },
-  { name: 'Gallery', path: '/gallery', icon: ImageIcon },
-  { name: 'Contact', path: '/contact', icon: Phone },
+  { name: 'nav.gallery', path: '/gallery', icon: ImageIcon },
+  { name: 'nav.contact', path: '/contact', icon: Phone },
 ];
 
 export default function Navbar() {
@@ -76,13 +76,13 @@ export default function Navbar() {
             <div className="w-12 h-12 flex items-center justify-center">
               <img 
                 src={logoUrl} 
-                alt="Wahat Mtq Logo" 
+                alt={t('nav.company_name')} 
                 className="w-full h-full object-contain"
                 referrerPolicy="no-referrer"
               />
             </div>
             <span className={`text-xl font-bold tracking-tight text-teal-900`}>
-              {t('WAHAT MTQ')} <span className="text-teal-600">{t('Chemicals')}</span>
+              {t('nav.company_name')} <span className="text-teal-600">{t('nav.chemicals_llc')}</span>
             </span>
           </Link>
 
@@ -148,7 +148,7 @@ export default function Navbar() {
                 }`}
               >
                 <Shield size={16} />
-                <span>{t('Admin')}</span>
+                <span>{t('nav.admin')}</span>
               </Link>
             )}
 
@@ -160,7 +160,7 @@ export default function Navbar() {
                 }`}
               >
                 <User size={18} />
-                <span>{user ? t('Account') : t('Login')}</span>
+                <span>{user ? t('nav.account') : t('nav.login')}</span>
               </Link>
               
               <div className="border-l border-gray-200 h-8 mx-2" />
@@ -204,14 +204,14 @@ export default function Navbar() {
                   <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center p-2 border border-teal-50">
                     <img 
                       src={logoUrl} 
-                      alt="Wahat Mtq Logo" 
+                      alt={t('nav.company_name')} 
                       className="w-full h-full object-contain"
                       referrerPolicy="no-referrer"
                     />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xl font-black text-teal-900 leading-none">WAHAT MTQ</span>
-                    <span className="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em] mt-1">Chemicals LLC</span>
+                    <span className="text-xl font-black text-teal-900 leading-none">{t('nav.company_name')}</span>
+                    <span className="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em] mt-1">{t('nav.chemicals_llc')}</span>
                   </div>
                 </Link>
                 <button
@@ -254,7 +254,7 @@ export default function Navbar() {
 
                 {/* Account & Admin Section */}
                 <div className="space-y-3">
-                  <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] px-2">{t('Account & Access')}</h3>
+                  <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] px-2">{t('nav.account_access')}</h3>
                   <div className="space-y-2">
                     <Link
                       to="/membership"
@@ -272,8 +272,8 @@ export default function Navbar() {
                           <User size={20} />
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-sm font-bold">{user ? t('My Profile') : t('Sign In')}</span>
-                          <span className="text-[10px] text-gray-400">{user ? user.email : t('Access your dashboard')}</span>
+                          <span className="text-sm font-bold">{user ? t('nav.my_profile') : t('nav.sign_in')}</span>
+                          <span className="text-[10px] text-gray-400">{user ? user.email : t('nav.account_access')}</span>
                         </div>
                       </div>
                       <ChevronRight size={16} className={isRTL ? 'rotate-180' : ''} />
@@ -296,8 +296,8 @@ export default function Navbar() {
                             <Shield size={20} />
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-sm font-bold">{t('Admin Panel')}</span>
-                            <span className={`text-[10px] ${location.pathname === '/admin' ? 'text-teal-100' : 'text-teal-600/60'}`}>{t('System Management')}</span>
+                            <span className="text-sm font-bold">{t('nav.admin_panel')}</span>
+                            <span className={`text-[10px] ${location.pathname === '/admin' ? 'text-teal-100' : 'text-teal-600/60'}`}>{t('nav.system_management')}</span>
                           </div>
                         </div>
                         <ChevronRight size={16} className={isRTL ? 'rotate-180' : ''} />
@@ -311,7 +311,7 @@ export default function Navbar() {
               <div className="p-8 bg-gray-50 border-t border-gray-100">
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-center justify-between px-2">
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{t('Language Settings')}</span>
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{t('nav.language_settings')}</span>
                   </div>
                   <LanguageSwitcher />
                 </div>

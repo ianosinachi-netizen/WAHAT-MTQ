@@ -35,45 +35,45 @@ export default function Services() {
   const services = [
     {
       icon: Beaker,
-      title: 'Custom Blending',
-      desc: 'Tailored chemical formulations designed to meet your specific industrial performance criteria.',
+      title: 'services.items.blending.title',
+      desc: 'services.items.blending.desc',
       bg: "https://images.unsplash.com/photo-1532187863486-abf9d39d6618?auto=format&fit=crop&q=80&w=2070",
-      details: 'Our custom blending services provide precise formulations for various industries. We use advanced mixing technology to ensure homogeneity and performance. Whether you need small batches or large-scale production, our team can handle complex chemical requirements with ease. We specialize in aqueous and solvent-based blends, ensuring each product meets your exact specifications.'
+      details: 'services.items.blending.details'
     },
     {
       icon: FlaskConical,
-      title: 'Lab Analysis',
-      desc: 'State-of-the-art testing facilities ensuring the highest purity and consistency standards.',
+      title: 'services.items.lab.title',
+      desc: 'services.items.lab.desc',
       bg: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2070",
-      details: 'Our laboratory is equipped with the latest analytical instruments, including HPLC, GC, and ICP-MS. We perform rigorous testing on all raw materials and finished products. Our services include purity analysis, stability testing, and performance verification to guarantee ISO compliance and exceed industry standards.'
+      details: 'services.items.lab.details'
     },
     {
       icon: Droplets,
-      title: 'Supply Chain',
-      desc: 'Efficient chemical logistics and inventory management solutions for global distribution.',
+      title: 'services.items.supply.title',
+      desc: 'services.items.supply.desc',
       bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2070",
-      details: 'We offer a robust supply chain network that spans the globe. Our logistics experts ensure timely delivery and safe handling of hazardous and non-hazardous chemicals. We provide real-time tracking, optimized routing, and strategic inventory management to keep your operations running smoothly without interruptions.'
+      details: 'services.items.supply.details'
     },
     {
       icon: ShieldCheck,
-      title: 'Compliance Consulting',
-      desc: 'Expert guidance on regulatory compliance and safety standards for chemical handling.',
+      title: 'services.items.compliance.title',
+      desc: 'services.items.compliance.desc',
       bg: "https://images.unsplash.com/photo-1454165833767-027ffea9e778?auto=format&fit=crop&q=80&w=2070",
-      details: 'Navigating the complex landscape of chemical regulations is challenging. Our experts provide comprehensive support for REACH, GHS, and local environmental standards. We help you develop Safety Data Sheets (SDS), implement safety protocols, and ensure your facility meets all legal requirements for chemical storage and transport.'
+      details: 'services.items.compliance.details'
     },
     {
       icon: Globe,
-      title: 'Global Sourcing',
-      desc: 'Direct access to a worldwide network of high-quality chemical manufacturers.',
+      title: 'services.items.sourcing.title',
+      desc: 'services.items.sourcing.desc',
       bg: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=2070",
-      details: 'Leverage our extensive network of vetted manufacturers across Asia, Europe, and the Americas. We source hard-to-find chemicals and negotiate competitive pricing while maintaining strict quality control. Our global presence allows us to mitigate supply chain risks and ensure a steady flow of raw materials for your business.'
+      details: 'services.items.sourcing.details'
     },
     {
       icon: Rocket,
-      title: 'R&D Support',
-      desc: 'Collaborative research and development to create next-generation chemical solutions.',
+      title: 'services.items.rd.title',
+      desc: 'services.items.rd.desc',
       bg: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&q=80&w=2070",
-      details: 'Innovation is at the heart of what we do. Our R&D team works closely with clients to develop new products, improve existing formulations, and find sustainable alternatives. From initial concept to pilot-scale testing, we provide the technical expertise and laboratory resources needed to bring your chemical innovations to market.'
+      details: 'services.items.rd.details'
     }
   ];
 
@@ -86,13 +86,13 @@ export default function Services() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block px-4 py-1 rounded-full bg-teal-50 text-teal-600 text-sm font-bold mb-6"
           >
-            {t('Expert Technical Services')}
+            {t('services.subtitle')}
           </motion.div>
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 tracking-tight leading-[1.1] sm:leading-tight">
-            {t('Industrial')} <span className="text-teal-600">{t('Services')}</span>
+            {t('services.title_main')} <span className="text-teal-600">{t('nav.services')}</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            {t('We provide a comprehensive range of technical services tailored to the chemical industry, ensuring quality, safety, and innovation at every step.')}
+            {t('services.description')}
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export default function Services() {
                     onClick={() => setSelectedService(service)}
                     className="mt-auto text-teal-600 font-bold flex items-center space-x-2 group-hover:translate-x-2 transition-transform"
                   >
-                    <span>{t('Learn More')}</span>
+                    <span>{t('common.learn_more')}</span>
                     <ArrowRight size={18} />
                   </button>
                 </div>
@@ -139,13 +139,18 @@ export default function Services() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-teal-800 rounded-full -mr-48 -mt-48 opacity-20 blur-3xl"></div>
           <div className="lg:w-1/2 relative z-10">
             <h2 className="text-3xl lg:text-5xl font-bold text-white mb-8 leading-tight">
-              {t('Technical Expertise at Your Service')}
+              {t('services.expertise.title')}
             </h2>
             <p className="text-teal-100 text-lg mb-10 leading-relaxed">
-              {t('Our team of chemical engineers and industry specialists are ready to help you solve your most complex technical challenges with precision and safety.')}
+              {t('services.expertise.description')}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {['Custom Formulations', 'Regulatory Support', 'Quality Control', 'Technical Training'].map((item, i) => (
+              {[
+                'services.expertise.items.formulations',
+                'services.expertise.items.regulatory',
+                'services.expertise.items.qc',
+                'services.expertise.items.training'
+              ].map((item, i) => (
                 <div key={i} className="flex items-center space-x-3 bg-white/5 backdrop-blur-sm p-4 rounded-2xl border border-white/10">
                   <CheckCircle className="text-teal-400" size={20} />
                   <span className="font-bold text-white">{t(item)}</span>
@@ -162,7 +167,7 @@ export default function Services() {
             >
               <img 
                 src="https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=2070" 
-                alt={t('Technical Support')} 
+                alt={t('services.expertise.title')} 
                 className="rounded-3xl shadow-2xl border-8 border-white/5"
                 referrerPolicy="no-referrer"
               />
@@ -189,7 +194,7 @@ export default function Services() {
                 <X size={24} />
               </button>
               <div className="h-64 relative">
-                <img src={selectedService.bg || selectedService.imageUrl} alt={selectedService.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                <img src={selectedService.bg || selectedService.imageUrl} alt={t(selectedService.title)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-teal-900/60 flex items-center justify-center p-12 text-center">
                   <h2 className="text-4xl font-bold text-white">{t(selectedService.title)}</h2>
                 </div>
@@ -202,7 +207,7 @@ export default function Services() {
                       return <IconComp className="text-teal-600" size={24} />;
                     })()}
                   </div>
-                  <span className="text-teal-600 font-bold uppercase tracking-widest text-sm">{t('Service Details')}</span>
+                  <span className="text-teal-600 font-bold uppercase tracking-widest text-sm">{t('services.modal.details_header')}</span>
                 </div>
                 <p className="text-lg text-gray-600 leading-relaxed mb-10">
                   {t(selectedService.details)}
@@ -212,7 +217,7 @@ export default function Services() {
                     onClick={() => setSelectedService(null)}
                     className="bg-teal-600 text-white px-10 py-4 rounded-2xl font-bold hover:bg-teal-700 transition-all shadow-lg shadow-teal-600/20"
                   >
-                    {t('Close')}
+                    {t('common.close')}
                   </button>
                 </div>
               </div>

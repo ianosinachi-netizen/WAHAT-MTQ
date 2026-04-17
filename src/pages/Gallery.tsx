@@ -62,7 +62,7 @@ export default function Gallery() {
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4"
           >
-            {t('Our Gallery')}
+            {t('gallery.hero.title')}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -70,27 +70,27 @@ export default function Gallery() {
             transition={{ delay: 0.1 }}
             className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4"
           >
-            {t('A visual showcase of our facilities, products, and industrial operations delivering excellence in the chemical industry.')}
+            {t('gallery.hero.description')}
           </motion.p>
         </div>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p className="text-gray-500 font-medium">{t('Loading gallery...')}</p>
+            <p className="text-gray-500 font-medium">{t('gallery.loading')}</p>
           </div>
         ) : error ? (
           <div className="text-center py-20 bg-red-50 rounded-[3rem] border border-red-100 px-6">
             <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 text-red-600">
               <ImageIcon size={40} />
             </div>
-            <h3 className="text-xl font-bold text-red-900 mb-2">{t('Error loading gallery')}</h3>
+            <h3 className="text-xl font-bold text-red-900 mb-2">{t('common.error')}</h3>
             <p className="text-red-600 mb-6">{error}</p>
             <button 
               onClick={() => window.location.reload()}
               className="px-8 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors"
             >
-              {t('Retry')}
+              {t('common.retry')}
             </button>
           </div>
         ) : images.length > 0 ? (
@@ -138,8 +138,8 @@ export default function Gallery() {
             <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
               <ImageIcon size={40} />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('No images found')}</h3>
-            <p className="text-gray-500">{t('The gallery is currently empty. Check back later!')}</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('gallery.empty')}</h3>
+            <p className="text-gray-500">{t('gallery.empty_description')}</p>
           </div>
         )}
       </div>

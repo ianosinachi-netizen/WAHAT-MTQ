@@ -8,11 +8,6 @@ export const LanguageSwitcher: React.FC = () => {
     t, 
     currentLanguage, 
     setLanguage, 
-    isLoading, 
-    translationMode, 
-    setTranslationMode, 
-    translatePage,
-    quotaExceeded
   } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,25 +31,12 @@ export const LanguageSwitcher: React.FC = () => {
   return (
     <div className="relative" ref={dropdownRef}>
       <div className="flex items-center gap-2">
-        {translationMode === 'manual' && currentLanguage.code !== 'en' && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            onClick={translatePage}
-            disabled={isLoading || quotaExceeded}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-teal-600 text-white shadow-lg hover:bg-teal-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm font-bold"
-          >
-            {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Globe size={16} />}
-            {t('Translate Page')}
-          </motion.button>
-        )}
-        
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center gap-3 px-4 py-2.5 rounded-full bg-white shadow-sm hover:shadow-md transition-all border border-gray-100 group"
         >
           <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 group-hover:bg-teal-100 transition-colors">
-            {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Globe size={18} />}
+            <Globe size={18} />
           </div>
           <div className="flex flex-col items-start">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none mb-1">{t('Select Language')}</span>
@@ -90,27 +72,6 @@ export const LanguageSwitcher: React.FC = () => {
               className="fixed inset-x-4 bottom-4 top-20 lg:absolute lg:inset-auto lg:right-0 lg:top-full lg:mt-3 w-auto lg:w-72 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden z-[100] flex flex-col"
             >
               <div className="p-4 border-b border-gray-50 bg-gray-50/30">
-                <div className="flex items-center justify-between mb-3 px-1">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t('Translation Mode')}</span>
-                  <div className="flex bg-gray-100 p-1 rounded-xl">
-                    <button
-                      onClick={() => setTranslationMode('auto')}
-                      className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-all ${
-                        translationMode === 'auto' ? 'bg-white text-teal-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                      }`}
-                    >
-                      {t('Auto')}
-                    </button>
-                    <button
-                      onClick={() => setTranslationMode('manual')}
-                      className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-all ${
-                        translationMode === 'manual' ? 'bg-white text-teal-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                      }`}
-                    >
-                      {t('Manual')}
-                    </button>
-                  </div>
-                </div>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                   <input

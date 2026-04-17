@@ -120,26 +120,26 @@ export default function Home() {
   }, []);
 
   const services = [
-    { 
+      { 
       icon: Beaker, 
-      title: t('Custom Blending'), 
-      desc: t('Tailored chemical formulations designed to meet your specific industrial performance criteria.'),
+      title: 'home.services.custom_blending.title', 
+      desc: 'home.services.custom_blending.desc',
       bg: "https://images.unsplash.com/photo-1532187863486-abf9d39d6618?auto=format&fit=crop&q=80&w=1000",
-      details: t('Our custom blending services provide precise formulations for various industries. We use advanced mixing technology to ensure homogeneity and performance. Whether you need small batches or large-scale production, our team can handle complex chemical requirements with ease.')
+      details: 'home.services.custom_blending.details'
     },
     { 
       icon: FlaskConical, 
-      title: t('Lab Analysis'), 
-      desc: t('State-of-the-art testing facilities ensuring the highest purity and consistency standards.'),
+      title: 'home.services.lab_analysis.title', 
+      desc: 'home.services.lab_analysis.desc',
       bg: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000",
-      details: t('Our laboratory is equipped with the latest analytical instruments. We perform rigorous testing on all raw materials and finished products. Our services include purity analysis, stability testing, and performance verification to guarantee ISO compliance.')
+      details: 'home.services.lab_analysis.details'
     },
     { 
       icon: Droplets, 
-      title: t('Supply Chain'), 
-      desc: t('Efficient chemical logistics and inventory management solutions for global distribution.'),
+      title: 'home.services.supply_chain.title', 
+      desc: 'home.services.supply_chain.desc',
       bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1000",
-      details: t('We offer a robust supply chain network that spans the globe. Our logistics experts ensure timely delivery and safe handling of hazardous and non-hazardous chemicals. We provide real-time tracking and inventory management to keep your operations running smoothly.')
+      details: 'home.services.supply_chain.details'
     },
   ];
 
@@ -190,7 +190,7 @@ export default function Home() {
               <motion.img 
                 key={currentHero}
                 src={heroImages[currentHero]} 
-                alt={t('Chemical Laboratory')} 
+                alt={t('home.hero.img.alt')} 
                 initial={{ opacity: 0, scale: 1.1 }}
                 animate={{ opacity: 0.4, scale: 1 }}
                 exit={{ opacity: 0 }}
@@ -208,16 +208,16 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               className="inline-block px-4 py-1 rounded-full bg-teal-500/20 backdrop-blur-sm border border-teal-500/30 text-teal-300 text-sm font-bold mb-6"
             >
-              {t('ISO 9001:2015 Certified Company')}
+              {t('home.hero.badge')}
             </motion.div>
             <motion.h1 
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1] sm:leading-tight"
             >
-              {t(heroContent?.title || '') || (
+              {heroContent?.title ? t(heroContent.title) : (
                 <>
-                  {t('Advanced Chemical Solutions for')} <span className="text-teal-400">{t('Global Industries')}</span>
+                  {t('home.hero.title')}
                 </>
               )}
             </motion.h1>
@@ -227,7 +227,7 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="text-xl text-teal-100 mb-10 leading-relaxed"
             >
-              {t(heroContent?.description || '') || t('WAHAT MTQ Chemicals LLC delivers high-performance industrial chemicals, specialized additives, and custom formulations designed to optimize your production processes.')}
+              {heroContent?.description ? t(heroContent.description) : t('home.hero.description')}
             </motion.p>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -236,11 +236,11 @@ export default function Home() {
               className="flex flex-col sm:flex-row gap-4 mt-8"
             >
               <Link to="/contact" className="bg-teal-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-teal-400 transition-all flex items-center justify-center group shadow-lg shadow-teal-500/20 active:scale-95">
-                {t('Request a Quote')}
+                {t('common.request_quote')}
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </Link>
               <Link to="/products" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all text-center active:scale-95">
-                {t('View Products')}
+                {t('home.hero.cta.products')}
               </Link>
             </motion.div>
           </div>
@@ -258,33 +258,33 @@ export default function Home() {
             >
               <div className="inline-flex items-center space-x-2 bg-teal-50 text-teal-700 px-4 py-2 rounded-full text-sm font-bold mb-6">
                 <Clock size={16} />
-                <span>13 {t('Years Experience')}</span>
+                <span>13 {t('home.about.years')}</span>
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-8">
-                {t(aboutContent?.title || '') || t('A Leading Provider of Specialized Products and Services')}
+                {aboutContent?.title ? t(aboutContent.title) : t('home.about.title')}
               </h2>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                {t(aboutContent?.description || '') || t('WAHAT MTQ LLC As a leading provider of specialized products and services, our company offers a unique combination of solutions to meet the needs of multiple industries. We are committed to delivering the best possible products and services to our customers.')}
+                {aboutContent?.description ? t(aboutContent.description) : t('home.about.desc1')}
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                {t('From high-performance oilfield chemicals (WAHAT chemicals) to cutting-edge electronics (WAHAT view), we are committed to delivering the best possible products and services to our customers. With a focus on quality, innovation, and customer satisfaction, we have built a reputation for excellence that spans multiple industries.')}
+                {t('home.about.desc2')}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="text-teal-600 mt-1" size={20} />
-                  <span className="text-gray-700 font-medium">{t('Quality Innovation')}</span>
+                  <span className="text-gray-700 font-medium">{t('home.about.feature.innovation')}</span>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="text-teal-600 mt-1" size={20} />
-                  <span className="text-gray-700 font-medium">{t('Customer Satisfaction')}</span>
+                  <span className="text-gray-700 font-medium">{t('home.about.feature.satisfaction')}</span>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="text-teal-600 mt-1" size={20} />
-                  <span className="text-gray-700 font-medium">{t('Safety Excellence')}</span>
+                  <span className="text-gray-700 font-medium">{t('home.about.feature.safety')}</span>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="text-teal-600 mt-1" size={20} />
-                  <span className="text-gray-700 font-medium">{t('Global Standards')}</span>
+                  <span className="text-gray-700 font-medium">{t('home.about.feature.standards')}</span>
                 </div>
               </div>
             </motion.div>
@@ -296,7 +296,7 @@ export default function Home() {
             >
               <img 
                 src={aboutContent?.imageUrl || "https://siddachem.com/images/home8-images/welcome-img.jpg"} 
-                alt={t('Welcome')} 
+                alt={t('home.about.img.alt')} 
                 className="rounded-[3rem] shadow-2xl relative z-10 w-full"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
@@ -312,41 +312,41 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-12 mb-24">
             <div className="bg-gray-50 p-8 lg:p-10 rounded-[2rem] lg:rounded-[2.5rem] border border-gray-100 hover:shadow-xl transition-shadow">
               <Shield className="text-teal-600 mb-6" size={40} />
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('Safety Commitment')}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.safety.title')}</h3>
               <p className="text-gray-600 leading-relaxed">
-                {t('We understand the importance of safety in the oilfield and take our responsibility seriously. That\'s why we only source our chemicals from trusted suppliers and rigorously test each batch before it is shipped to our customers.')}
+                {t('home.safety.desc')}
               </p>
             </div>
             <div className="bg-gray-50 p-8 lg:p-10 rounded-[2rem] lg:rounded-[2.5rem] border border-gray-100 hover:shadow-xl transition-shadow">
               <Award className="text-teal-600 mb-6" size={40} />
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('Expert Team')}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.expert.title')}</h3>
               <p className="text-gray-600 leading-relaxed">
-                {t('Our team of experts has extensive experience in the oil and gas industry and is dedicated to finding innovative solutions to the challenges our customers face.')}
+                {t('home.expert.desc')}
               </p>
             </div>
             <div className="bg-gray-50 p-8 lg:p-10 rounded-[2rem] lg:rounded-[2.5rem] border border-gray-100 hover:shadow-xl transition-shadow">
               <Globe className="text-teal-600 mb-6" size={40} />
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('Sustainability')}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.sustainability.title')}</h3>
               <p className="text-gray-600 leading-relaxed">
-                {t('We take pride in our commitment to sustainability and are constantly exploring new ways to reduce our environmental impact through eco-friendly production methods.')}
+                {t('home.sustainability.desc')}
               </p>
             </div>
           </div>
 
           <div className="prose prose-lg max-w-none text-gray-600 space-y-8 mb-24">
             <p>
-              {t('At WAHAT MTQ LLC, our mission is to help our customers succeed by providing them with the products and support they need to operate efficiently and safely. We believe in building long-term relationships with our customers and are committed to earning their trust through our actions.')}
+              {t('home.mission.desc1')}
             </p>
             <p>
-              {t('Our product line includes a wide range of chemicals, from drilling muds and cement additives to corrosion inhibitors and scale inhibitors. We can also provide customized blends to meet specific customer requirements. Whatever your needs, we are confident that we can provide a solution that works for you.')}
+              {t('home.mission.desc2')}
             </p>
           </div>
 
           {/* Barite Slider Section (Merged from About) */}
           <div className="mb-24">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('Our Premium Mineral Resources')}</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">{t('Explore our high-grade Barite and industrial minerals sourced from the finest deposits.')}</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('home.mineral.title')}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t('home.mineral.desc')}</p>
             </div>
             <div className="relative h-[500px] rounded-[3rem] overflow-hidden shadow-2xl">
               <AnimatePresence mode="wait">
@@ -379,9 +379,9 @@ export default function Home() {
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('Our Services')}</h2>
-            <h3 className="text-4xl font-bold text-gray-900 mb-6">{t('Specialized Solutions for Every Need')}</h3>
-            <p className="text-lg text-gray-600">{t('From custom blending to technical consulting, we provide end-to-end support for your chemical requirements.')}</p>
+            <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('home.services.title')}</h2>
+            <h3 className="text-4xl font-bold text-gray-900 mb-6">{t('home.services.subtitle')}</h3>
+            <p className="text-lg text-gray-600">{t('home.services.desc')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -392,7 +392,7 @@ export default function Home() {
                   <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity">
                     <img 
                       src={service.bg} 
-                      alt={service.title} 
+                      alt={t(service.title)} 
                       className="w-full h-full object-cover" 
                       referrerPolicy="no-referrer" 
                       onError={(e) => {
@@ -412,7 +412,7 @@ export default function Home() {
                       onClick={() => setSelectedService(service)}
                       className="text-teal-600 font-bold inline-flex items-center group-hover:translate-x-1 transition-transform text-left"
                     >
-                      {t('Learn More')} <ArrowRight className="ml-2" size={16} />
+                      {t('common.learn_more')} <ArrowRight className="ml-2" size={16} />
                     </button>
                   </div>
                 </div>
@@ -463,7 +463,7 @@ export default function Home() {
                     onClick={() => setSelectedService(null)}
                     className="bg-teal-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-700 transition-colors"
                   >
-                    {t('Close')}
+                    {t('common.close')}
                   </button>
                 </div>
               </div>
@@ -477,15 +477,15 @@ export default function Home() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-teal-800 rounded-full -mr-48 -mt-48 opacity-20 blur-3xl"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-teal-400 font-bold tracking-widest uppercase text-sm mb-3">{t('Testimonials')}</h2>
-            <h3 className="text-4xl font-bold">{t('Trusted by Industry Leaders')}</h3>
+            <h2 className="text-teal-400 font-bold tracking-widest uppercase text-sm mb-3">{t('home.testimonials.title')}</h2>
+            <h3 className="text-4xl font-bold">{t('home.testimonials.subtitle')}</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {(dynamicTestimonials.length > 0 ? dynamicTestimonials : [
-              { name: t('David Miller'), company: t('Global PetroCorp'), text: t('WAHAT MTQ has been our primary chemical supplier for 5 years. Their consistency in quality and reliability in delivery is unmatched in the industry.') },
-              { name: t('Sarah Al-Fayed'), company: t('Emirates Water Solutions'), text: t('The technical support we receive from their lab team is exceptional. They helped us optimize our treatment process, saving us significant costs.') },
-              { name: t('Robert Chen'), company: t('TechPolymer Industries'), text: t('Finding a partner that understands specialized chemical requirements is rare. WAHAT MTQ delivers custom blends that meet our exact specs every time.') },
+              { name: t('home.testimonials.1.name'), company: t('home.testimonials.1.company'), text: t('home.testimonials.1.text') },
+              { name: t('home.testimonials.2.name'), company: t('home.testimonials.2.company'), text: t('home.testimonials.2.text') },
+              { name: t('home.testimonials.3.name'), company: t('home.testimonials.3.company'), text: t('home.testimonials.3.text') },
             ]).map((testimonial, i) => (
               <div key={i} className="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10">
                 <div className="flex text-teal-400 mb-6">
@@ -509,20 +509,20 @@ export default function Home() {
             <div className="absolute top-0 left-0 w-full h-full opacity-10">
               <img 
                 src="https://images.unsplash.com/photo-1532187863486-abf9d39d6618?auto=format&fit=crop&q=80&w=2070" 
-                alt={t('Background')} 
+                alt={t('home.cta.img.alt')} 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
             </div>
             <div className="relative z-10">
-              <h2 className="text-3xl lg:text-5xl font-bold text-white mb-8">{t('Ready to Optimize Your Chemical Supply?')}</h2>
-              <p className="text-teal-100 text-lg mb-10 max-w-2xl mx-auto">{t('Contact our technical experts today to discuss your requirements and receive a customized quote.')}</p>
+              <h2 className="text-3xl lg:text-5xl font-bold text-white mb-8">{t('home.cta.title')}</h2>
+              <p className="text-teal-100 text-lg mb-10 max-w-2xl mx-auto">{t('home.cta.desc')}</p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Link to="/contact" className="bg-white text-teal-700 px-10 py-4 rounded-full font-bold text-lg hover:bg-teal-50 transition-all shadow-xl">
-                  {t('Request a Quote')}
+                  {t('home.cta.quote')}
                 </Link>
                 <Link to="/contact" className="bg-teal-700 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-teal-800 transition-all">
-                  {t('Contact Sales')}
+                  {t('home.cta.sales')}
                 </Link>
               </div>
             </div>

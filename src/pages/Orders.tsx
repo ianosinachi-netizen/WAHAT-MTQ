@@ -91,13 +91,13 @@ export default function Orders() {
           <div className="w-20 h-20 bg-teal-50 rounded-3xl flex items-center justify-center mx-auto mb-6 text-teal-600">
             <AlertCircle size={40} />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('Access Restricted')}</h2>
-          <p className="text-gray-500 mb-8">{t('Please sign in to view and track your chemical orders.')}</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('orders.access.title')}</h2>
+          <p className="text-gray-500 mb-8">{t('orders.access.subtitle')}</p>
           <Link 
             to="/membership" 
             className="block w-full bg-teal-900 text-white py-4 rounded-2xl font-bold hover:bg-teal-800 transition-all shadow-lg shadow-teal-900/20"
           >
-            {t('Sign In / Sign Up')}
+            {t('membership.auth.signin')} / {t('membership.auth.signup')}
           </Link>
         </div>
       </div>
@@ -109,8 +109,8 @@ export default function Orders() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('My Orders')}</h1>
-            <p className="text-gray-600">{t('Manage and track your industrial chemical procurement.')}</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('orders.title')}</h1>
+            <p className="text-gray-600">{t('orders.subtitle')}</p>
           </div>
         </div>
 
@@ -120,7 +120,7 @@ export default function Orders() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input 
               type="text"
-              placeholder={t('Search by order ID or chemical name...')}
+              placeholder={t('orders.search.placeholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all bg-white shadow-sm"
@@ -133,11 +133,11 @@ export default function Orders() {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all bg-white shadow-sm appearance-none font-semibold text-gray-700"
             >
-              <option value="All">{t('All Statuses')}</option>
-              <option value="Pending">{t('Pending')}</option>
-              <option value="Processing">{t('Processing')}</option>
-              <option value="Shipped">{t('Shipped')}</option>
-              <option value="Delivered">{t('Delivered')}</option>
+              <option value="All">{t('orders.status.all')}</option>
+              <option value="Pending">{t('orders.status.pending')}</option>
+              <option value="Processing">{t('orders.status.processing')}</option>
+              <option value="Shipped">{t('orders.status.shipped')}</option>
+              <option value="Delivered">{t('orders.status.delivered')}</option>
             </select>
           </div>
         </div>
@@ -165,9 +165,9 @@ export default function Orders() {
                           <h3 className="text-xl font-bold text-gray-900">{order.chemicalName}</h3>
                           <span className="text-sm text-gray-400 font-mono">#{order.orderId}</span>
                         </div>
-                        <p className="text-gray-500 mb-4">{t('Quantity')}: <span className="font-bold text-gray-900">{order.quantity} {t('Units')}</span></p>
+                        <p className="text-gray-500 mb-4">{t('orders.details.quantity')}: <span className="font-bold text-gray-900">{order.quantity} {t('orders.details.units')}</span></p>
                         <div className="flex items-center space-x-4 text-sm text-gray-400">
-                          <span>{t('Placed on')} {order.createdAt?.toDate().toLocaleDateString() || t('Recently')}</span>
+                          <span>{t('orders.details.placed_on')} {order.createdAt?.toDate().toLocaleDateString() || t('common.loading')}</span>
                         </div>
                       </div>
                     </div>
@@ -175,10 +175,10 @@ export default function Orders() {
                     <div className="flex flex-col sm:flex-row items-center gap-4">
                       <div className={`flex items-center space-x-3 px-6 py-3 rounded-2xl border font-bold ${getStatusColor(order.status)}`}>
                         {getStatusIcon(order.status)}
-                        <span className="capitalize">{t(order.status)}</span>
+                        <span className="capitalize">{t(`orders.status.${order.status}`)}</span>
                       </div>
                       <button className="w-full sm:w-auto px-8 py-3 rounded-2xl border border-gray-200 font-bold text-gray-700 hover:bg-gray-50 transition-all">
-                        {t('Order Details')}
+                        {t('orders.details.btn')}
                       </button>
                     </div>
                   </div>
@@ -189,13 +189,13 @@ export default function Orders() {
                 <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
                   <Package size={40} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{t('No orders found')}</h3>
-                <p className="text-gray-500 mb-8">{t("You haven't placed any orders yet.")}</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{t('orders.empty.title')}</h3>
+                <p className="text-gray-500 mb-8">{t('orders.empty.subtitle')}</p>
                 <Link 
                   to="/products" 
                   className="inline-flex items-center space-x-2 bg-teal-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-800 transition-all shadow-lg shadow-teal-900/20"
                 >
-                  {t('Browse Products')}
+                  {t('orders.empty.browse')}
                 </Link>
               </div>
             )}

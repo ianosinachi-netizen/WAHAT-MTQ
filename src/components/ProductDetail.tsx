@@ -66,9 +66,9 @@ export default function ProductDetail({
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent lg:hidden" />
-          <div className="absolute bottom-6 left-6 hidden lg:block">
+            <div className="absolute bottom-6 left-6 hidden lg:block">
             <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-xl text-teal-900 font-bold shadow-xl border border-white/20">
-              {product.price === 'Quote' ? t('Quote') : product.price}
+              {product.price === 'Quote' ? t('common.quote') : product.price}
             </span>
           </div>
         </div>
@@ -92,13 +92,13 @@ export default function ProductDetail({
               </div>
               <span className="text-gray-300">|</span>
               <span className={`font-bold ${product.stock > 0 ? 'text-teal-600' : 'text-red-600'}`}>
-                {product.stock > 0 ? `${product.stock} ${t('Units In Stock')}` : t('Out of Stock')}
+                {product.stock > 0 ? `${product.stock} ${t('product.stock.in')}` : t('product.stock.out')}
               </span>
             </div>
 
             <div className="relative">
               <div className="space-y-4 transition-all duration-500">
-                <h4 className="font-bold text-gray-900 text-lg">{t('Product Overview')}</h4>
+                <h4 className="font-bold text-gray-900 text-lg">{t('product.overview')}</h4>
                 <p className="text-gray-600 leading-relaxed text-lg">
                   {t(product.details)}
                 </p>
@@ -111,7 +111,7 @@ export default function ProductDetail({
             <div className="space-y-6">
               <h4 className="font-bold text-gray-900 flex items-center text-lg">
                 <CheckCircle2 className="mr-2 text-teal-600" size={24} />
-                {t('Technical Specifications')}
+                {t('product.specs')}
               </h4>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {product.specs.map((spec, i) => (

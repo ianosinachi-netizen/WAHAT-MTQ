@@ -29,17 +29,17 @@ export default function Footer() {
               <div className="w-10 h-10 flex items-center justify-center">
                 <img 
                   src={logoUrl} 
-                  alt="Wahat Mtq Logo" 
+                  alt={t('nav.company_name')} 
                   className="w-full h-full object-contain"
                   referrerPolicy="no-referrer"
                 />
               </div>
               <span className="text-xl font-bold text-white tracking-tight">
-                {t('WAHAT MTQ')} <span className="text-teal-500">{t('Chemicals')}</span>
+                {t('nav.company_name')} <span className="text-teal-500">{t('nav.chemicals_llc')}</span>
               </span>
             </Link>
             <p className="text-sm leading-relaxed">
-              {t('Leading the way in chemical innovation and industrial excellence. WAHAT MTQ Chemicals LLC provides high-quality solutions for global industrial needs.')}
+              {t('footer.motto')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="hover:text-teal-500 transition-colors"><Facebook size={20} /></a>
@@ -51,50 +51,50 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold text-lg mb-6">{t('Quick Links')}</h3>
+            <h3 className="text-white font-semibold text-lg mb-6">{t('footer.quick_links')}</h3>
             <ul className="space-y-4 text-sm">
-              <li><Link to="/about" className="hover:text-white transition-colors">{t('About Us')}</Link></li>
-              <li><Link to="/products" className="hover:text-white transition-colors">{t('Our Products')}</Link></li>
-              <li><Link to="/services" className="hover:text-white transition-colors">{t('Services')}</Link></li>
-              <li><Link to="/gallery" className="hover:text-white transition-colors">{t('Gallery')}</Link></li>
-              <li><Link to="/membership" className="hover:text-white transition-colors">{t('Membership')}</Link></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">{t('nav.home')}</Link></li>
+              <li><Link to="/products" className="hover:text-white transition-colors">{t('nav.chemicals')}</Link></li>
+              <li><Link to="/services" className="hover:text-white transition-colors">{t('nav.services')}</Link></li>
+              <li><Link to="/gallery" className="hover:text-white transition-colors">{t('nav.gallery')}</Link></li>
+              <li><Link to="/membership" className="hover:text-white transition-colors">{t('nav.account')}</Link></li>
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h3 className="text-white font-semibold text-lg mb-6">{t('Support')}</h3>
+            <h3 className="text-white font-semibold text-lg mb-6">{t('footer.support')}</h3>
             <ul className="space-y-4 text-sm">
-              <li><Link to="/contact" className="hover:text-white transition-colors">{t('Contact Us')}</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('Privacy Policy')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('Terms of Service')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('FAQs')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('Help Center')}</a></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('footer.cookies')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('footer.accessibility')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('footer.sitemap')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('common.info')}</a></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-white font-semibold text-lg mb-6">{t('Contact Us')}</h3>
+            <h3 className="text-white font-semibold text-lg mb-6">{t('footer.contact')}</h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start space-x-3">
                 <MapPin size={18} className="text-teal-500 mt-0.5" />
                 <span>
-                  {t('WAHAT MTQ CHEMICALS Building')}<br />
-                  {t('Al Quds Street')}<br />
-                  {t('Dubai Airport Free Zone')}<br />
-                  {t('Dubai Cargo Village')}
+                  {t('nav.company_name')}<br />
+                  {t('contact.info.address.street')}<br />
+                  {t('contact.info.address.zone')}<br />
+                  {t('contact.info.address.village')}
                 </span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone size={18} className="text-teal-500" />
-                <span>+1 (503) 832 0116</span>
+                <span>{t('contact.info.phone')}</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail size={18} className="text-teal-500" />
                 <div className="flex flex-col">
-                  <span>Sales@wahatmtq.com</span>
-                  <span>Info@wahatmtq.com</span>
+                  <span>{t('contact.info.email.sales')}</span>
+                  <span>{t('contact.info.email.info')}</span>
                 </div>
               </li>
             </ul>
@@ -102,11 +102,11 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
-          <p>&copy; {currentYear} {t('WAHAT MTQ Chemicals LLC. All rights reserved.')}</p>
+          <p>&copy; {currentYear} {t('nav.company_name')} {t('nav.chemicals_llc')}. {t('footer.rights')}</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white">{t('Cookie Settings')}</a>
-            <a href="#" className="hover:text-white">{t('Accessibility')}</a>
-            <a href="#" className="hover:text-white">{t('Sitemap')}</a>
+            <a href="#" className="hover:text-white">{t('footer.cookies')}</a>
+            <a href="#" className="hover:text-white">{t('footer.accessibility')}</a>
+            <a href="#" className="hover:text-white">{t('footer.sitemap')}</a>
           </div>
         </div>
       </div>

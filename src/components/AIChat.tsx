@@ -18,7 +18,7 @@ export default function AIChat() {
 
   const INITIAL_MESSAGE: ChatMessage = { 
     role: 'assistant', 
-    content: t('Hello, I am MRS SUSAN, your chemical assistant. How can I help you today?') 
+    content: t('chat.initial_message') 
   };
 
   // Load history on mount
@@ -71,14 +71,14 @@ export default function AIChat() {
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
     } catch (error) {
       console.error('Chat error:', error);
-      setMessages(prev => [...prev, { role: 'assistant', content: t('I encountered an error. Please try again.') }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: t('chat.error') }]);
     } finally {
       setIsLoading(false);
     }
   };
 
   const clearHistory = () => {
-    if (window.confirm(t('Are you sure you want to clear your chat history?'))) {
+    if (window.confirm(t('chat.clear_confirm'))) {
       setMessages([INITIAL_MESSAGE]);
       localStorage.removeItem(STORAGE_KEY);
     }
@@ -124,10 +124,10 @@ export default function AIChat() {
                   <Bot size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm">{t('MRS SUSAN')}</h3>
+                  <h3 className="font-bold text-sm">{t('chat.name')}</h3>
                   <div className="flex items-center space-x-1">
                     <div className="w-2 h-2 bg-teal-400 rounded-full animate-pulse"></div>
-                    <span className="text-[10px] text-teal-300 font-medium uppercase tracking-wider">{t('Online')}</span>
+                    <span className="text-[10px] text-teal-300 font-medium uppercase tracking-wider">{t('chat.status')}</span>
                   </div>
                 </div>
               </div>
@@ -135,7 +135,7 @@ export default function AIChat() {
                 {!isMinimized && messages.length > 1 && (
                   <button 
                     onClick={clearHistory}
-                    title={t('Clear Chat')}
+                    title={t('chat.clear_tooltip')}
                     className="p-2 hover:bg-red-800/50 rounded-lg transition-colors text-teal-300 hover:text-white"
                   >
                     <Trash2 size={18} />
@@ -193,7 +193,7 @@ export default function AIChat() {
                         </div>
                         <div className="bg-white border border-gray-100 p-4 rounded-2xl rounded-bl-none shadow-sm flex items-center space-x-2">
                           <Loader2 size={16} className="animate-spin text-teal-600" />
-                          <span className="text-xs text-gray-400 font-medium">{t('Assistant is thinking...')}</span>
+                          <span className="text-xs text-gray-400 font-medium">{t('chat.thinking')}</span>
                         </div>
                       </div>
                     </div>
@@ -210,7 +210,7 @@ export default function AIChat() {
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder={t('Ask about our chemicals...')}
+                    placeholder={t('chat.placeholder')}
                     className="flex-grow px-5 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all text-sm"
                   />
                   <button 

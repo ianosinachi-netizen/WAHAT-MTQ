@@ -31,20 +31,20 @@ export default function Membership() {
     } catch (err: any) {
       // Don't log the full error to console to avoid confusing the user
       if (err.code === 'auth/network-request-failed') {
-        setError('Network error: Please check your internet connection.');
+        setError('auth.errors.network');
       } else if (err.code === 'auth/wrong-password') {
-        setError('Wrong password');
+        setError('auth.errors.wrong_password');
       } else if (err.code === 'auth/user-not-found') {
-        setError('User not found. Please sign up first.');
+        setError('auth.errors.user_not_found');
       } else if (err.code === 'auth/invalid-credential') {
         // This is the new Firebase error code for both wrong password and user not found
-        setError('Invalid credentials. Please check your email and password or sign up.');
+        setError('auth.errors.invalid_credentials');
       } else if (err.code === 'auth/email-already-in-use') {
-        setError('Email already in use. Please sign in instead.');
+        setError('auth.errors.email_in_use');
       } else if (err.code === 'auth/weak-password') {
-        setError('Password should be at least 6 characters.');
+        setError('auth.errors.weak_password');
       } else {
-        setError('An error occurred. Please try again.');
+        setError('auth.errors.default');
       }
     } finally {
       setAuthLoading(false);
@@ -65,14 +65,14 @@ export default function Membership() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('Welcome')}, {profile.displayName || user.email}</h1>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('auth.account.welcome')}, {profile.displayName || user.email}</h1>
               <div className="flex items-center space-x-2">
                 <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-100 text-teal-700">
-                  {t('Active Account')}
+                  {t('auth.account.status')}
                 </span>
                 {profile.role === 'admin' && (
                   <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 text-purple-700">
-                    {t('Admin')}
+                    {t('nav.admin')}
                   </span>
                 )}
               </div>
@@ -82,7 +82,7 @@ export default function Membership() {
               className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors font-semibold"
             >
               <LogOut size={20} />
-              <span>{t('Sign Out')}</span>
+              <span>{t('auth.account.signout')}</span>
             </button>
           </div>
 
@@ -94,33 +94,33 @@ export default function Membership() {
                   <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center text-teal-600 mb-6">
                     <FileText size={24} />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-1">{t('Total Orders')}</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">{t('auth.account.orders')}</h3>
                   <p className="text-3xl font-bold text-teal-900">0</p>
                 </div>
                 <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
                   <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center text-teal-600 mb-6">
                     <MapPin size={24} />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-1">{t('Saved Locations')}</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">{t('auth.account.locations')}</h3>
                   <p className="text-3xl font-bold text-teal-900">0</p>
                 </div>
               </div>
 
-              {/* Account Info */}
+               {/* Account Info */}
               <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden p-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">{t('Account Details')}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-6">{t('auth.account.details')}</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between py-3 border-b border-gray-50">
-                    <span className="text-gray-500">{t('Email')}</span>
+                    <span className="text-gray-500">{t('common.email')}</span>
                     <span className="font-medium text-gray-900">{user.email}</span>
                   </div>
                   <div className="flex justify-between py-3 border-b border-gray-50">
-                    <span className="text-gray-500">{t('Account Type')}</span>
-                    <span className="font-medium text-gray-900 uppercase">{t(profile.role)}</span>
+                    <span className="text-gray-500">{t('common.category')}</span>
+                    <span className="font-medium text-gray-900 uppercase">{t(`auth.roles.${profile.role}`)}</span>
                   </div>
                   <div className="flex justify-between py-3">
-                    <span className="text-gray-500">{t('Member Since')}</span>
-                    <span className="font-medium text-gray-900">{t('March 2026')}</span>
+                    <span className="text-gray-500">{t('auth.account.member_since')}</span>
+                    <span className="font-medium text-gray-900">{t('month.march')} 2026</span>
                   </div>
                 </div>
               </div>
@@ -129,13 +129,13 @@ export default function Membership() {
             {/* Sidebar Info */}
             <div className="space-y-8">
               <div className="bg-teal-900 rounded-3xl p-8 text-white">
-                <h3 className="text-xl font-bold mb-6">{t('Quick Actions')}</h3>
+                <h3 className="text-xl font-bold mb-6">{t('auth.account.quick_actions')}</h3>
                 <div className="space-y-4">
                   <Link to="/products" className="block w-full bg-white text-teal-900 py-3 rounded-xl font-bold text-center hover:bg-teal-50 transition-all">
-                    {t('Browse Products')}
+                    {t('auth.account.browse')}
                   </Link>
                   <button className="w-full bg-teal-700 text-white py-3 rounded-xl font-bold hover:bg-teal-600 transition-all">
-                    {t('Update Profile')}
+                    {t('auth.account.profile')}
                   </button>
                 </div>
               </div>
@@ -158,11 +158,11 @@ export default function Membership() {
             <div className="w-16 h-16 bg-teal-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-teal-600">
               {isLogin ? <LogIn size={32} /> : <UserPlus size={32} />}
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {isLogin ? t('Welcome Back') : t('Join Us')}
+             <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              {isLogin ? t('auth.signin.title') : t('auth.signup.title')}
             </h1>
             <p className="text-gray-500 font-medium">
-              {t('Create an account for a better experience (optional)')}
+              {t('auth.signup.subtitle')}
             </p>
           </div>
 
@@ -173,7 +173,7 @@ export default function Membership() {
                 isLogin ? 'bg-white text-teal-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Sign In')}
+              {t('nav.sign_in')}
             </button>
             <button
               onClick={() => setIsLogin(false)}
@@ -181,7 +181,7 @@ export default function Membership() {
                 !isLogin ? 'bg-white text-teal-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {t('Sign Up')}
+              {t('auth.form.signup')}
             </button>
           </div>
 
@@ -195,32 +195,32 @@ export default function Membership() {
                   exit={{ opacity: 0, height: 0 }}
                   className="space-y-2"
                 >
-                  <label className="text-sm font-bold text-gray-700">{t('Full Name')}</label>
+                  <label className="text-sm font-bold text-gray-700">{t('common.name')}</label>
                   <input 
                     type="text" 
                     required
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all" 
-                    placeholder={t('John Doe')} 
+                    placeholder={t('contact.form.placeholder.name')} 
                   />
                 </motion.div>
               )}
             </AnimatePresence>
             
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">{t('Email Address')}</label>
+              <label className="text-sm font-bold text-gray-700">{t('auth.form.email')}</label>
               <input 
                 type="email" 
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all" 
-                placeholder={t('john@example.com')} 
+                placeholder={t('contact.form.placeholder.email')} 
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700">{t('Password')}</label>
+              <label className="text-sm font-bold text-gray-700">{t('auth.form.password')}</label>
               <input 
                 type="password" 
                 required
@@ -250,14 +250,14 @@ export default function Membership() {
               {authLoading ? (
                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <span>{isLogin ? t('Sign In') : t('Create Account')}</span>
+                <span>{isLogin ? t('nav.sign_in') : t('auth.form.signup')}</span>
               )}
             </button>
           </form>
 
           <div className="mt-8 pt-8 border-t border-gray-100 text-center">
             <Link to="/products" className="text-gray-500 font-bold hover:text-teal-600 transition-colors flex items-center justify-center space-x-2">
-              <span>{t('Continue as Guest')}</span>
+              <span>{t('auth.form.guest')}</span>
               <ChevronRight size={18} />
             </Link>
           </div>

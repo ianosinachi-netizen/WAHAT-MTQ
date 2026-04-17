@@ -84,39 +84,37 @@ export default function Products() {
   }, []);
 
   const dosageRanges = [
-    { fluid: t('Water-Based Mud'), type: t('Film-forming amines'), dosage: '1–5% ' + t('by volume of mud') },
-    { fluid: t('Oil-Based Mud'), type: t('Oil-soluble inhibitors'), dosage: '0.5–2% ' + t('by volume') },
-    { fluid: t('Completion Fluid'), type: t('Liquid amine-based'), dosage: '0.2–1% ' + t('by volume') },
-    { fluid: t('Acidizing / Stimulation'), type: t('Organic amines'), dosage: '0.5–3% ' + t('of acid volume') },
-    { fluid: t('Pipelines / Flowlines'), type: t('Continuous injection'), dosage: '1–5 ppm ' + t('in produced water') },
+    { fluid: 'products.dosages.water_based.fluid', type: 'products.dosages.water_based.type', dosage: '1–5% ' + t('products.dosages.by_volume_mud') },
+    { fluid: 'products.dosages.oil_based.fluid', type: 'products.dosages.oil_based.type', dosage: '0.5–2% ' + t('products.dosages.by_volume') },
+    { fluid: 'products.dosages.completion.fluid', type: 'products.dosages.completion.type', dosage: '0.2–1% ' + t('products.dosages.by_volume') },
+    { fluid: 'products.dosages.acidizing.fluid', type: 'products.dosages.acidizing.type', dosage: '0.5–3% ' + t('products.dosages.of_acid') },
+    { fluid: 'products.dosages.pipelines.fluid', type: 'products.dosages.pipelines.type', dosage: '1–5 ppm ' + t('products.dosages.in_water') },
   ];
 
   const packagingFormats = [
-    { type: t('Plastic Jerrycans / Bottles'), volume: '5–25 ' + t('liters'), use: t('Small-scale operations, lab tests, or emergency use') },
-    { type: t('Plastic or Metal Drums'), volume: '200–220 ' + t('liters (≈55 gallons)'), use: t('Standard field supply for drilling or completion operations') },
-    { type: t('Intermediate Bulk Containers (IBC / Tote Bags)'), volume: '1000 ' + t('liters (≈264 gallons)'), use: t('Large field operations, offshore rigs, or continuous injection systems') },
-    { type: t('Bulk Tankers / Tank Trucks'), volume: '5000–25,000 ' + t('liters'), use: t('Major supply for continuous injection, pipeline corrosion prevention, or large mud systems') },
+    { type: 'products.packaging.jerrycans.type', volume: '5–25 ' + t('products.packaging.liters'), use: 'products.packaging.jerrycans.use' },
+    { type: 'products.packaging.drums.type', volume: '200–220 ' + t('products.packaging.liters_gallons'), use: 'products.packaging.drums.use' },
+    { type: 'products.packaging.ibc.type', volume: '1000 ' + t('products.packaging.liters_gallons_ibc'), use: 'products.packaging.ibc.use' },
+    { type: 'products.packaging.tankers.type', volume: '5000–25,000 ' + t('products.packaging.liters'), use: 'products.packaging.tankers.use' },
   ];
 
   const surfactantUses = [
-    t('Surfactants are added to drilling fluids (muds).'),
-    t('They help reduce friction and stabilize the wellbore, allowing smoother drilling.'),
-    t('Emulsifying Oil and Water.'),
-    t('Surfactants allow oil, water, and other fluids to mix in the drilling mud.'),
-    t('This prevents separation and ensures the mud carries rock cuttings to the surface efficiently.'),
-    t('Enhanced Oil Recovery (EOR).'),
-    t('Surfactants are injected into wells to reduce surface tension between oil and rock pores.'),
-    t('This helps mobilize trapped oil and improves overall extraction.'),
-    t('Corrosion and Scale Control.'),
-    t('Certain surfactants can clean pipes and prevent buildup of deposits during drilling and production.'),
-    t('Foaming and Cleaning.'),
-    t('Used in well cleaning operations to remove debris and improve flow.')
+    'products.surfactants.uses.drilling_mud',
+    'products.surfactants.uses.friction_reduction',
+    'products.surfactants.uses.emulsifying',
+    'products.surfactants.uses.separation_prevention',
+    'products.surfactants.uses.cuttings_transport',
+    'products.surfactants.uses.eor',
+    'products.surfactants.uses.surface_tension',
+    'products.surfactants.uses.mobilize_oil',
+    'products.surfactants.uses.corrosion_control',
+    'products.surfactants.uses.foaming',
   ];
 
   const surfactantPrices = [
-    { label: t('Bio-based surfactants'), price: '$18–$20 ' + t('per kg') },
-    { label: t('Basic anionic/nonionic polymers'), price: '$1–$12 ' + t('per kg') },
-    { label: t('Commodity surfactants'), price: '$1–$3 ' + t('per kg') },
+    { label: 'products.surfactants.prices.bio', price: '$18–$20 ' + t('products.surfactants.prices.per_kg') },
+    { label: 'products.surfactants.prices.anionic', price: '$1–$12 ' + t('products.surfactants.prices.per_kg') },
+    { label: 'products.surfactants.prices.commodity', price: '$1–$3 ' + t('products.surfactants.prices.per_kg') },
   ];
 
   return (
@@ -127,7 +125,7 @@ export default function Products() {
           {heroContent?.imageUrl ? (
             <img
               src={heroContent.imageUrl}
-              alt="Chemicals Hero"
+              alt={heroContent.title ? t(heroContent.title) : t('products.hero.title')}
               className="w-full h-full object-cover opacity-100"
               referrerPolicy="no-referrer"
               onError={(e) => {
@@ -150,21 +148,21 @@ export default function Products() {
               className="max-w-3xl"
             >
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-[1.1] sm:leading-tight">
-                {t(heroContent?.title || '') || (
+                {heroContent?.title ? t(heroContent.title) : (
                   <>
-                    {t('Advanced')} <span className="text-teal-400">{t('Chemical')}</span> {t('Solutions')}
+                    {t('products.hero.title')}
                   </>
                 )}
               </h1>
               <p className="text-lg sm:text-xl text-teal-100 leading-relaxed mb-8">
-                {t(heroContent?.description || '') || t('WAHAT MTQ Chemicals LLC delivers high-performance industrial chemicals, specialized additives, and custom formulations designed to optimize your production processes.')}
+                {heroContent?.description ? t(heroContent.description) : t('products.hero.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a href="#order-form" className="bg-teal-500 text-white px-8 py-4 rounded-xl font-bold hover:bg-teal-400 transition-all shadow-lg shadow-teal-500/20 text-center active:scale-95">
-                  {t('Place Order Now')}
+                  {t('products.hero.cta.order')}
                 </a>
                 <a href="#corrosion-inhibitors" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all text-center active:scale-95">
-                  {t('Technical Specs')}
+                  {t('common.technical_specs')}
                 </a>
               </div>
             </motion.div>
@@ -229,31 +227,31 @@ export default function Products() {
       <section className="py-24 bg-white" id="corrosion-inhibitors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('Specialized Additives')}</h2>
-            <h3 className="text-4xl font-bold text-gray-900">{t('CORROSION INHIBITORS')}</h3>
+            <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('products.additives.subtitle')}</h2>
+            <h3 className="text-4xl font-bold text-gray-900">{t('products.additives.title')}</h3>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             <div className="bg-white p-6 sm:p-8 rounded-[2rem] border border-gray-100 shadow-sm">
               <h4 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
                 <Activity className="mr-3 text-teal-600" size={28} />
-                {t('Typical Dosage Ranges')}
+                {t('products.dosages.title')}
               </h4>
               <div className="overflow-x-auto -mx-6 sm:mx-0">
                 <table className="w-full text-left border-collapse min-w-[500px] sm:min-w-0">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-200">
-                      <th className="px-4 py-3 text-sm font-bold text-gray-700">{t('Fluid Type')}</th>
-                      <th className="px-4 py-3 text-sm font-bold text-gray-700">{t('Inhibitor Type')}</th>
-                      <th className="px-4 py-3 text-sm font-bold text-gray-700">{t('Typical Dosage')}</th>
+                      <th className="px-4 py-3 text-sm font-bold text-gray-700">{t('products.dosages.fluid_header')}</th>
+                      <th className="px-4 py-3 text-sm font-bold text-gray-700">{t('products.dosages.inhibitor_header')}</th>
+                      <th className="px-4 py-3 text-sm font-bold text-gray-700">{t('products.dosages.dosage_header')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {dosageRanges.map((item, i) => (
                       <tr key={i} className="hover:bg-teal-50/30 transition-colors">
-                        <td className="px-4 py-4 text-sm font-medium text-gray-900">{item.fluid}</td>
-                        <td className="px-4 py-4 text-sm text-gray-600">{item.type}</td>
-                        <td className="px-4 py-4 text-sm font-bold text-teal-700">{item.dosage}</td>
+                        <td className="px-4 py-4 text-sm font-medium text-gray-900">{t(item.fluid)}</td>
+                        <td className="px-4 py-4 text-sm text-gray-600">{t(item.type)}</td>
+                        <td className="px-4 py-4 text-sm font-bold text-teal-700">{t(item.dosage)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -264,16 +262,16 @@ export default function Products() {
             <div>
               <h4 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
                 <Package className="mr-3 text-teal-600" size={28} />
-                {t('Common Packaging Formats')}
+                {t('products.packaging.title')}
               </h4>
               <div className="space-y-4">
                 {packagingFormats.map((item, i) => (
                   <div key={i} className="bg-gray-50 p-6 rounded-2xl border border-gray-100 hover:border-teal-200 transition-all">
                     <div className="flex justify-between items-start mb-2">
-                      <span className="font-bold text-gray-900">{item.type}</span>
-                      <span className="text-teal-600 font-bold text-sm">{item.volume}</span>
+                      <span className="font-bold text-gray-900">{t(item.type)}</span>
+                      <span className="text-teal-600 font-bold text-sm">{t(item.volume)}</span>
                     </div>
-                    <p className="text-sm text-gray-600">{item.use}</p>
+                    <p className="text-sm text-gray-600">{t(item.use)}</p>
                   </div>
                 ))}
               </div>
@@ -291,23 +289,23 @@ export default function Products() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('Surface Active Agents')}</h2>
-              <h3 className="text-4xl font-bold text-gray-900 mb-8">{t('SURFACTANTS')}</h3>
+              <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('products.surfactants.subtitle')}</h2>
+              <h3 className="text-4xl font-bold text-gray-900 mb-8">{t('products.surfactants.title')}</h3>
               <p className="text-xl text-gray-700 leading-relaxed mb-8 italic border-l-4 border-teal-500 pl-6">
-                {t('SURFACTANTS are chemicals that reduce the surface tension between two substances, like oil and water, so they can mix or interact more easily.')}
+                {t('products.surfactants.description')}
               </p>
               
               <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100">
                 <h4 className="text-xl font-bold text-teal-900 mb-6 flex items-center">
                   <Info className="mr-2 text-teal-600" size={24} />
-                  {t('WAHAT MTQ Prices (Industrial Surfactants)')}
+                  {t('products.surfactants.prices.title')}
                 </h4>
                 <div className="space-y-4">
-                  <p className="text-teal-800 font-medium mb-4">{t('All prices converted to Metric Ton equivalent:')}</p>
+                  <p className="text-teal-800 font-medium mb-4">{t('products.surfactants.prices.note')}</p>
                   {surfactantPrices.map((item, i) => (
                     <div key={i} className="flex justify-between items-center p-4 bg-gray-50 rounded-2xl">
-                      <span className="text-gray-700 font-medium">{item.label}</span>
-                      <span className="text-teal-700 font-bold">{item.price}</span>
+                      <span className="text-gray-700 font-medium">{t(item.label)}</span>
+                      <span className="text-teal-700 font-bold">{t(item.price)}</span>
                     </div>
                   ))}
                 </div>
@@ -317,15 +315,15 @@ export default function Products() {
             <div className="space-y-6">
               <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <Droplets className="mr-3 text-teal-600" size={28} />
-                {t('Uses in Oil Drilling')}
+                {t('products.surfactants.uses.title')}
               </h4>
               <div className="bg-white p-8 rounded-[3rem] border border-gray-100 shadow-lg space-y-4">
-                <p className="font-bold text-teal-800 mb-4">{t('Drilling Mud Additives & More:')}</p>
+                <p className="font-bold text-teal-800 mb-4">{t('products.surfactants.uses.subtitle')}</p>
                 <div className="grid grid-cols-1 gap-3">
                   {surfactantUses.map((use, i) => (
                     <div key={i} className="flex items-start space-x-3">
                       <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-teal-500 flex-shrink-0"></div>
-                      <p className="text-sm text-gray-600 leading-relaxed">{use}</p>
+                      <p className="text-sm text-gray-600 leading-relaxed">{t(use)}</p>
                     </div>
                   ))}
                 </div>
@@ -339,9 +337,9 @@ export default function Products() {
       <section className="py-24 bg-white" id="order-form">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('Procurement')}</h2>
-            <h3 className="text-4xl font-bold text-gray-900 mb-6">{t('Place Your Chemical Order')}</h3>
-            <p className="text-lg text-gray-600">{t('Select your required chemical type and quantity. Our logistics team handles global distribution.')}</p>
+            <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('products.order.subtitle')}</h2>
+            <h3 className="text-4xl font-bold text-gray-900 mb-6">{t('products.order.title')}</h3>
+            <p className="text-lg text-gray-600">{t('products.order.desc')}</p>
           </div>
 
           <AnimatePresence mode="wait">
@@ -355,7 +353,7 @@ export default function Products() {
               >
                 <form onSubmit={handleSubmit} className="space-y-8">
                   <div className="space-y-3">
-                    <label className="text-sm font-bold text-gray-700 ml-1">{t('Your Email')}</label>
+                    <label className="text-sm font-bold text-gray-700 ml-1">{t('common.email')}</label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                       <input 
@@ -364,7 +362,7 @@ export default function Products() {
                         required 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder={t('Enter your email for confirmation')}
+                        placeholder={t('contact.form.placeholder.email')}
                         className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all"
                       />
                     </div>
@@ -373,7 +371,7 @@ export default function Products() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-gray-700 ml-1">{t('Chemical Type')}</label>
+                      <label className="text-sm font-bold text-gray-700 ml-1">{t('products.order.type_label')}</label>
                       <div className="relative">
                         <FlaskConical className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                         <select 
@@ -381,44 +379,44 @@ export default function Products() {
                           required
                           className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all appearance-none bg-white"
                         >
-                    <option value="Corrosion Inhibitors">{t('Corrosion Inhibitors')}</option>
-                    <option value="Surfactants">{t('Surfactants')}</option>
-                    <option value="Biocides">{t('Biocides')}</option>
-                    <option value="Scale Inhibitors">{t('Scale Inhibitors')}</option>
-                    <option value="Defoamers">{t('Defoamers')}</option>
+                    <option value="Corrosion Inhibitors">{t('products.additives.title')}</option>
+                    <option value="Surfactants">{t('products.surfactants.title')}</option>
+                    <option value="Biocides">{t('products.order.biocides')}</option>
+                    <option value="Scale Inhibitors">{t('products.order.scale')}</option>
+                    <option value="Defoamers">{t('products.order.defoamers')}</option>
                     {dynamicProducts.map(p => (
                       <option key={p.id} value={p.name || p.title}>{t(p.name || p.title)}</option>
                     ))}
-                    <option value="Other">{t('Other Specialty Chemicals')}</option>
+                    <option value="Other">{t('products.order.other')}</option>
                         </select>
                       </div>
                       <ValidationError prefix="Chemical Type" field="chemicalType" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                     </div>
 
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-gray-700 ml-1">{t('Quantity (Tons)')}</label>
+                      <label className="text-sm font-bold text-gray-700 ml-1">{t('products.order.quantity_label')}</label>
                       <select 
                           name="quantity"
                           required
                           className="w-full px-4 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all appearance-none bg-white"
                         >
-                          <option value="1-10">1 - 10 {t('Tons')}</option>
-                          <option value="10-50">10 - 50 {t('Tons')}</option>
-                          <option value="50-100">50 - 100 {t('Tons')}</option>
-                          <option value="100-500">100 - 500 {t('Tons')}</option>
-                          <option value="500+">500+ {t('Tons')}</option>
+                          <option value="1-10">1 - 10 {t('products.order.tons')}</option>
+                          <option value="10-50">10 - 50 {t('products.order.tons')}</option>
+                          <option value="50-100">50 - 100 {t('products.order.tons')}</option>
+                          <option value="100-500">100 - 500 {t('products.order.tons')}</option>
+                          <option value="500+">500+ {t('products.order.tons')}</option>
                         </select>
                       <ValidationError prefix="Quantity" field="quantity" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <label className="text-sm font-bold text-gray-700 ml-1">{t('Additional Requirements')}</label>
+                    <label className="text-sm font-bold text-gray-700 ml-1">{t('products.order.requirements_label')}</label>
                     <textarea 
                       name="requirements"
                       rows={4}
                       className="w-full px-6 py-4 rounded-2xl border border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all resize-none"
-                      placeholder={t('Packaging requirements, delivery timeline, or specific technical specifications...')}
+                      placeholder={t('products.order.requirements_placeholder')}
                     ></textarea>
                     <ValidationError prefix="Requirements" field="requirements" errors={state.errors} className="text-red-500 text-xs mt-1 ml-1" />
                   </div>
@@ -431,9 +429,9 @@ export default function Products() {
                     {state.submitting ? (
                       <>
                         <Loader2 className="animate-spin mr-2" size={20} />
-                        {t('Sending...')}
+                        {t('common.sending')}
                       </>
-                    ) : t('Submit Order Request')}
+                    ) : t('products.order.submit')}
                   </button>
                 </form>
               </motion.div>
@@ -447,9 +445,9 @@ export default function Products() {
                 <div className="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 mx-auto mb-8">
                   <CheckCircle size={48} />
                 </div>
-                <h2 className="text-4xl font-bold text-gray-900 mb-6">{t('Order Request Received')}</h2>
+                <h2 className="text-4xl font-bold text-gray-900 mb-6">{t('products.order.success_title')}</h2>
                 <p className="text-xl text-gray-600 mb-10 leading-relaxed max-w-lg mx-auto">
-                  {t('Thank you for your interest in Wahat MTQ Chemicals. Our technical sales team will review your request and contact you within 24 hours with a formal quote.')}
+                  {t('products.order.success_desc')}
                 </p>
               </motion.div>
             )}
@@ -462,8 +460,8 @@ export default function Products() {
         <section className="py-24 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('Product Catalog')}</h2>
-              <h3 className="text-4xl font-bold text-gray-900">{t('Our Chemical Range')}</h3>
+              <h2 className="text-teal-600 font-bold tracking-widest uppercase text-sm mb-3">{t('products.catalog.subtitle')}</h2>
+              <h3 className="text-4xl font-bold text-gray-900">{t('products.catalog.title')}</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {dynamicProducts.map((product) => (
@@ -475,7 +473,7 @@ export default function Products() {
                   <div className="h-64 relative overflow-hidden">
                     <img 
                       src={product.imageUrl || product.img || 'https://picsum.photos/seed/chemical/800/600'} 
-                      alt={product.name || product.title}
+                      alt={t(product.name || product.title)}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       referrerPolicy="no-referrer"
                       onError={(e) => {
@@ -485,14 +483,14 @@ export default function Products() {
                       }}
                     />
                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1 rounded-full text-teal-700 font-bold text-sm">
-                      {product.category || t('Specialty')}
+                      {t(product.category) || t('common.specialty')}
                     </div>
                   </div>
                   <div className="p-8">
                     <h4 className="text-2xl font-bold text-gray-900 mb-3">{t(product.name || product.title)}</h4>
                     <p className="text-gray-600 mb-6 line-clamp-3">{t(product.desc || product.description)}</p>
                     <div className="flex items-center justify-between mt-auto">
-                      <span className="text-teal-600 font-bold text-xl">{t(product.price || t('Contact for Quote'))}</span>
+                      <span className="text-teal-600 font-bold text-xl">{t(product.price) || t('common.contact_quote')}</span>
                       <a href="#order-form" className="p-3 bg-teal-50 text-teal-600 rounded-xl hover:bg-teal-600 hover:text-white transition-colors">
                         <ShoppingCart size={20} />
                       </a>
